@@ -1,0 +1,7 @@
+{
+  "name": "wtsda-api",
+  "version": "0.0.1",
+  "require": {
+    "monolog/monolog": "1.0.0"
+  }
+}
