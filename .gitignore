@@ -1,3 +1,5 @@
+.DS_Store
+.idea
+.idea/*
 libraries/*
 resources/tmp/*
-.DS_Store
