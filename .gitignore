@@ -1,5 +1,4 @@
-.DS_Store
-.idea
-.idea/*
-libraries/*
-resources/tmp/*
+vendor/
+.idea/
+composer.lock
+config/local.ini

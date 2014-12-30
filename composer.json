@@ -1,7 +1,10 @@
 {
-  "name": "wtsda-api",
-  "version": "0.0.1",
-  "require": {
-    "monolog/monolog": "1.0.0"
-  }
+    "require": {
+        "slim/slim": "2.*",
+        "symfony/class-loader": "2.3.*@dev",
+        "symfony/console": "2.3.*@dev",
+        "doctrine/common": "2.3.*",
+        "doctrine/dbal": "2.3.*",
+        "doctrine/orm": "2.3.*"
+    }
 }
