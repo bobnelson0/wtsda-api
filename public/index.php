@@ -1,5 +1,5 @@
 <?php
-phpinfo();exit;
+
 require_once __DIR__ . '/../class-loader.php';
 
 $app = new Slim\Slim();

@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-
-use App\Entity;
 use Doctrine\ORM\Mapping;
 
 /**
@@ -12,7 +10,7 @@ use Doctrine\ORM\Mapping;
  * @Entity
  * @Table(name="Passwords")
  */
-class Password extends Entity
+class Password
 {
     /**
      * @var integer
@@ -22,21 +20,25 @@ class Password extends Entity
      * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @var string
      *
      * @Column(name="string", type="string", length=40)
      */
     protected $string;
+
+
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
     }
+
     /**
      * Set string
      *
@@ -47,15 +49,18 @@ class Password extends Entity
     public function setString($string)
     {
         $this->string = $string;
+
         return $this;
     }
+
     /**
      * Get string
      *
-     * @return string
+     * @return string 
      */
     public function getString()
     {
         return $this->string;
     }
 }
+
