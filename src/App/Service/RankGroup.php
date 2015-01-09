@@ -8,13 +8,10 @@ class RankGroup extends Service
 {
     /**
      * @param $id
-     * @return object
+     * @return array
      */
     public function getRankGroup($id)
     {
-        /**
-         * @var \App\Entity\RankGroup $rankGroup
-         */
         $repository = $this->getEntityManager()->getRepository('App\Entity\RankGroup');
         $rankGroup = $repository->find($id);
 
@@ -22,13 +19,7 @@ class RankGroup extends Service
             return null;
         }
 
-        return array(
-            'id' => $rankGroup->getId(),
-            'name' => $rankGroup->getName(),
-            'ord' => $rankGroup->getOrd(),
-            'created_at' => $rankGroup->getCreated(),
-            'updated_at' => $rankGroup->getUpdated()
-        );
+        return $this->formatData($rankGroup);
     }
 
     /**
@@ -43,21 +34,91 @@ class RankGroup extends Service
             return null;
         }
 
-        /**
-         * @var \App\Entity\RankGroup $rankGroup
-         */
         $data = array();
         foreach ($rankGroups as $rankGroup)
         {
-            $data[] = array(
-                'id' => $rankGroup->getId(),
-                'name' => $rankGroup->getName(),
-                'ord' => $rankGroup->getOrd(),
-                'created_at' => $rankGroup->getCreated(),
-                'updated_at' => $rankGroup->getUpdated()
-            );
+            $data[] = $this->formatData($rankGroup);
         }
 
         return $data;
+    }
+
+    /**
+     * @param $name
+     * @param $ord
+     * @return array
+     */
+    public function createRankGroup($name, $ord)
+    {
+        /**
+         * @var \App\Entity\RankGroup $rankGroup
+         */
+        $rankGroup = new \App\Entity\RankGroup();
+        $rankGroup->setName($name);
+        $rankGroup->setOrd($ord);
+
+        $this->persistAndFlush($rankGroup);
+
+        return $this->formatData($rankGroup);
+    }
+
+    /**
+     * @param $id
+     * @param $name
+     * @param $ord
+     * @return array
+     */
+    public function updateRankGroup($id, $name, $ord)
+    {
+        /**
+        * @var \App\Entity\RankGroup $rankGroup
+        */
+        $repository = $this->getEntityManager()->getRepository('App\Entity\RankGroup');
+        $rankGroup = $repository->find($id);
+
+        if ($rankGroup === null) {
+            return null;
+        }
+
+        $rankGroup->setName($name);
+        $rankGroup->setOrd($ord);
+        $rankGroup->setUpdated(new \DateTime());
+
+        $this->persistAndFlush($rankGroup);
+
+        return $this->formatData($rankGroup);
+    }
+
+    public function deleteRankGroup($id)
+    {
+        $repository = $this->getEntityManager()->getRepository('App\Entity\RankGroup');
+        $rankGroup = $repository->find($id);
+
+        if ($rankGroup === null) {
+            return false;
+        }
+
+        $this->getEntityManager()->remove($rankGroup);
+        $this->getEntityManager()->flush();
+
+        return true;
+    }
+
+    protected function formatData($data) {
+        /**
+         * @var \App\Entity\RankGroup $data
+         */
+        return array(
+            'id' => $data->getId(),
+            'name' => $data->getName(),
+            'ord' => $data->getOrd(),
+            'created_at' => $data->getCreated(),
+            'updated_at' => $data->getUpdated()
+        );
+    }
+
+    protected function persistAndFlush($entity) {
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
     }
 }

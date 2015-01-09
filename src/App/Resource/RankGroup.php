@@ -13,7 +13,9 @@ class RankGroup extends Resource
     private $service;
 
     /**
-     * Get rank group service
+     * Initialize the resource
+     *
+     * 1. Get rank group service
      */
     public function init()
     {
@@ -21,6 +23,10 @@ class RankGroup extends Resource
     }
 
     /**
+     * Get one or more RankGroup entities
+     * $id specifies a specific entity
+     * If entity with $id is not found, 404: Not Found Returned
+     *
      * @param null $id
      */
     public function get($id = null)
@@ -36,32 +42,73 @@ class RankGroup extends Resource
             return;
         }
 
-        $response = array('rank_group' => $data);
+        $response = array('data' => $data);
         self::response(self::STATUS_OK, $response);
     }
 
     /**
-     * Create user
+     * Create a new RankGroup entity
      */
     public function post()
     {
+        $name = $this->getSlim()->request()->params('name');
+        $ord = intval($this->getSlim()->request()->params('ord'));
 
+        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+            self::response(self::STATUS_BAD_REQUEST);
+            return;
+        }
+
+        try {
+            $rankGroup = $this->getService()->createRankGroup($name, $ord);
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            self::response(self::STATUS_CONFLICT, array('data' => array('Conflict')));
+            return;
+        }
+
+        self::response(self::STATUS_CREATED, array('data' => $rankGroup));
     }
 
     /**
-     * Update user
+     * Update RankGroup
+     *
+     * @param $id
      */
     public function put($id)
     {
+        $name = $this->getSlim()->request()->params('name');
+        $ord = $this->getSlim()->request()->params('ord');
 
+        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+            self::response(self::STATUS_BAD_REQUEST);
+            return;
+        }
+
+        $rankGroup = $this->getService()->updateRankGroup($id, $name, $ord);
+
+        if ($rankGroup === null) {
+            self::response(self::STATUS_NOT_IMPLEMENTED);
+            return;
+        }
+
+        self::response(self::STATUS_NO_CONTENT);
     }
 
     /**
+     * Delete an RankGroup Entity
+     *
      * @param $id
      */
     public function delete($id)
     {
+        $status = $this->getService()->deleteRankGroup($id);
 
+        if ($status === false) {
+            self::response(self::STATUS_NOT_FOUND);
+            return;
+        }
+
+        self::response(self::STATUS_OK);
     }
 
     /**
@@ -81,11 +128,11 @@ class RankGroup extends Resource
     }
 
     /**
-     * @param \App\Service\RankGroup $rankGroupService
+     * @param \App\Service\RankGroup $service
      */
-    public function setService($rankGroupService)
+    public function setService($service)
     {
-        $this->service = $rankGroupService;
+        $this->service = $service;
     }
 
     /**

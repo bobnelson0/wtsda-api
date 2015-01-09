@@ -27,6 +27,7 @@ abstract class Resource
     const STATUS_NOT_FOUND = 404;
     const STATUS_METHOD_NOT_ALLOWED = 405;
     const STATUS_NOT_ACCEPTED = 406;
+    const STATUS_CONFLICT = 409;
 
     const STATUS_INTERNAL_SERVER_ERROR = 500;
     const STATUS_NOT_IMPLEMENTED = 501;
@@ -61,7 +62,7 @@ abstract class Resource
     /**
      * Default get method
      */
-    public function get()
+    public function get($id = null)
     {
         $this->response(self::STATUS_METHOD_NOT_ALLOWED);
     }
@@ -77,7 +78,7 @@ abstract class Resource
     /**
      * Default put method
      */
-    public function put()
+    public function put($id)
     {
         $this->response(self::STATUS_METHOD_NOT_ALLOWED);
     }
@@ -85,7 +86,7 @@ abstract class Resource
     /**
      * Default delete method
      */
-    public function delete()
+    public function delete($id)
     {
         $this->response(self::STATUS_METHOD_NOT_ALLOWED);
     }

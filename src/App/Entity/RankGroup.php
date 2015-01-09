@@ -25,6 +25,9 @@ class RankGroup extends Entity
     protected $name;
 
     /**
+     * Used for sorting purposes
+     * Lowest value starts at 1
+     *
      * @Column(type="integer")
      */
     protected $ord;
@@ -39,6 +42,7 @@ class RankGroup extends Entity
      */
     public function __construct()
     {
+        parent::__construct();
         $this->ranks = new ArrayCollection();
     }
 
@@ -78,12 +82,12 @@ class RankGroup extends Entity
      * Set ord
      *
      * @param int $ord
-     * @throws \InvalidArgumentException if $ord is not an integer
+     * @throws \InvalidArgumentException if $ord is not an integer or < 0
      * @return RankGroup
      */
     public function setOrd($ord)
     {
-        if(!is_int($ord)) {
+        if(!is_int($ord) || intval($ord) < 1) {
             throw new \InvalidArgumentException;
         }
         $this->ord = $ord;
