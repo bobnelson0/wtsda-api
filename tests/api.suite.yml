@@ -1,0 +1,9 @@
+class_name: ApiTester
+
+modules:
+    enabled: [PhpBrowser, REST, ApiTesterHelper]
+    config:
+      PhpBrowser:
+          url: http://localhost/wtsda-api/
+      REST:
+          url: http://localhost/wtsda-api/

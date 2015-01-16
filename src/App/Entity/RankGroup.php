@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity;
+use App\Util\Validation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping;
 
@@ -12,13 +13,6 @@ use Doctrine\ORM\Mapping;
  */
 class RankGroup extends Entity
 {
-    /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * @Column(type="string", length=30, unique=true)
      */
@@ -47,16 +41,6 @@ class RankGroup extends Entity
     }
 
     /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Set name
      *
      * @param string $name
@@ -82,12 +66,12 @@ class RankGroup extends Entity
      * Set ord
      *
      * @param int $ord
-     * @throws \InvalidArgumentException if $ord is not an integer or < 0
+     * @throws \InvalidArgumentException if $ord is not an integer greater than 0
      * @return RankGroup
      */
     public function setOrd($ord)
     {
-        if(!is_int($ord) || intval($ord) < 1) {
+        if(!Validation::isValidOrd($ord)) {
             throw new \InvalidArgumentException;
         }
         $this->ord = $ord;

@@ -1,11 +1,21 @@
 <?php
-
+/**
+ * User: Robert S. Nelson <bob.nelson@gmail.com>
+ * Date: 2015-01-08
+ * Time: 11:00 AM
+ */
 namespace App\Service;
 
 use App\Service;
 
-class RankGroup extends Service
+/**
+ * Class RankGroups
+ * @package App\Service
+ */
+class RankGroups extends Service
 {
+    protected $defaultSort = 'ord';
+
     /**
      * @param $id
      * @return array
@@ -23,11 +33,23 @@ class RankGroup extends Service
     }
 
     /**
+     * @param $params array list of query params (sort, limit, etc)
      * @return array|null
      */
-    public function getRankGroups()
+    public function getRankGroups($params = array())
     {
         $repository = $this->getEntityManager()->getRepository('App\Entity\RankGroup');
+        if(!empty($params)) {
+            $criteria = array();
+            foreach($params as $param) {
+                switch($param) {
+                    case 'sort': break;
+                    case 'offset': break;
+                    case 'limit': break;
+                    default;
+                }
+            }
+        }
         $rankGroups = $repository->findAll();
 
         if (empty($rankGroups)) {

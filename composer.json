@@ -5,6 +5,7 @@
         "symfony/console": "2.3.*@dev",
         "doctrine/common": "2.3.*",
         "doctrine/dbal": "2.3.*",
-        "doctrine/orm": "2.3.*"
+        "doctrine/orm": "2.3.*",
+        "codeception/codeception": "*"
     }
 }

@@ -1,25 +1,39 @@
 <?php
-
+/**
+ * User: Robert S. Nelson <bob.nelson@gmail.com>
+ * Date: 2015-01-08
+ * Time: 11:00 AM
+ */
 namespace App\Resource;
 
 use App\Resource;
-use App\Service\RankGroup as RankGroupService;
+use App\Service\RankGroups as RankGroupsService;
+use App\Util\Request;
+use \Doctrine\DBAL\DBALException;
+use App\Util\Response;
 
-class RankGroup extends Resource
+/**
+ * Class RankGroups
+ * @package App\Resource
+ */
+class RankGroups extends Resource
 {
     /**
-     * @var \App\Service\RankGroup
+     * @var string
      */
-    private $service;
+    protected $key = 'rank_groups';
+
+    /**
+     * @var \App\Service\RankGroups
+     */
+    protected $service;
 
     /**
      * Initialize the resource
-     *
-     * 1. Get rank group service
      */
     public function init()
     {
-        $this->setService(new RankGroupService($this->getEntityManager()));
+        $this->setService(new RankGroupsService($this->getEntityManager()));
     }
 
     /**
@@ -27,23 +41,26 @@ class RankGroup extends Resource
      * $id specifies a specific entity
      * If entity with $id is not found, 404: Not Found Returned
      *
-     * @param null $id
+     * @param null | $id ID of the desire entity
      */
     public function get($id = null)
     {
         if ($id === null) {
-            $data = $this->getService()->getRankGroups();
+            $criteria = Request::getRequestCriteria(
+                $this->getSlim()->request()->params(),
+                $this->getSlim()->request()->headers()
+            );
+            $data = $this->getService()->getRankGroups(array());
         } else {
             $data = $this->getService()->getRankGroup($id);
         }
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_FOUND);
+            self::response(self::STATUS_NOT_FOUND, $this->formatResponse(self::STATUS_NOT_FOUND, $data,'Rank Group Not Found'));
             return;
         }
 
-        $response = array('data' => $data);
-        self::response(self::STATUS_OK, $response);
+        self::response(self::STATUS_OK, $this->formatResponse(self::STATUS_OK, $data));
     }
 
     /**
@@ -61,7 +78,7 @@ class RankGroup extends Resource
 
         try {
             $rankGroup = $this->getService()->createRankGroup($name, $ord);
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (DBALException $e) {
             self::response(self::STATUS_CONFLICT, array('data' => array('Conflict')));
             return;
         }
@@ -120,7 +137,7 @@ class RankGroup extends Resource
     }
 
     /**
-     * @return \App\Service\User
+     * @return \App\Service\RankGroups
      */
     public function getService()
     {
@@ -128,7 +145,7 @@ class RankGroup extends Resource
     }
 
     /**
-     * @param \App\Service\RankGroup $service
+     * @param \App\Service\RankGroups $service
      */
     public function setService($service)
     {
@@ -141,5 +158,9 @@ class RankGroup extends Resource
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function formatResponse($code, $data, $message = null){
+        return Response::getResponseData($code, $message, $this->key, $data);
     }
 }
