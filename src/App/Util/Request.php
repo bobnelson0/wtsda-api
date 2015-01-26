@@ -12,10 +12,32 @@ namespace App\Util;
  */
 class Request {
 
+    /**
+     * Default offset if none is passed or the passed value is invalid
+     *
+     * @var int
+     */
+    protected static $defaultOffset = 0;
+
+    /**
+     * Default limit if none is passed or the passed value is invalid
+     *
+     * @var int
+     */
+    protected static $defaultLimit = 25;
+
+    public static function getDefaultOffset() {
+        return self::$defaultOffset;
+    }
+
+    public static function getDefaultLimit() {
+        return self::$defaultLimit;
+    }
+
     public static function getRequestCriteria(array $params, \Slim\Http\Headers $headers)
     {
-        echo print_r($params, true);
-        echo print_r($headers, true);
+        //echo print_r($params, true);
+        //echo print_r($headers, true);
 
         $criteria = array();
         //Range, query string takes precedence
@@ -31,21 +53,51 @@ class Request {
 
     public static function getRange($offset, $limit, $rangeHeader) {
         $range = array();
-        if(!empty($offset) && !empty($limit) &&
-            is_int($offset) && is_int($limit)) {
+
+        if(!is_null($offset) && !is_null($limit)) {
+            return self::getRangeFromParams($offset, $limit);
+        } else if(!is_null($rangeHeader)) {
+            return self::getRangeFromHeader($rangeHeader);
+        }
+
+        $range['offset'] = self::getDefaultOffset();
+        $range['limit'] = self::getDefaultLimit();
+
+        return $range;
+    }
+
+    protected static function getRangeFromParams($offset, $limit) {
+        $offsetIsInt = filter_var($offset, FILTER_VALIDATE_INT) !== false;
+        $limitIsInt = filter_var($limit, FILTER_VALIDATE_INT) !== false;
+
+        if($offsetIsInt && $limitIsInt && $offset >=0 && $limit >= 1) {
             $range['offset'] = $offset;
             $range['limit'] = $limit;
-        } else if(!empty($rangeHeader) && !is_null($rangeHeader)) {
-
-            //TODO: Fix 0-B range
-            $parsed = explode('-', $rangeHeader);
-            $range['offset'] = $parsed['0'];
-            $range['limit'] = $parsed['1'] - $parsed['0'];
-        } else {
-            $range['offset'] = 0;
-            $range['limit'] = null;
+            return $range;
         }
-        return $range;
+        throw new \InvalidArgumentException("offset & limit must be integers. offset($offset), limit($limit) given.");
+    }
+
+    protected static function getRangeFromHeader($rangeHeader) {
+        if(substr_count($rangeHeader, '-') == 1) {
+            $parsedRange = explode('-', $rangeHeader);
+
+            if (count($parsedRange) == 2) {
+                $offset = $parsedRange[0];
+                $limit = $parsedRange[1];
+
+                //Validates each value is an integer
+                $offsetIsInt = filter_var($offset, FILTER_VALIDATE_INT) !== false;
+                $limitIsInt = filter_var($limit, FILTER_VALIDATE_INT) !== false;
+
+                if ($offsetIsInt && $limitIsInt) {
+                    $range['offset'] = $offset;
+                    $range['limit'] = $limit - $offset + 1;
+                    return $range;
+                }
+            }
+        }
+        throw new \InvalidArgumentException("offset & limit must be integers. offset($offset), limit($limit) given.");
     }
 
     public static function getSort($sortStr) {

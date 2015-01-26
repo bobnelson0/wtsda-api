@@ -28,7 +28,7 @@ class RankGroups extends Service
         if ($rankGroup === null) {
             return null;
         }
-
+        
         return $this->formatData($rankGroup);
     }
 
