@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Util\Config;
+use App\Util\Log;
 use Slim\Slim;
 use Doctrine\ORM\Configuration;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
+use App\Util\Response;
 
 abstract class Resource
 {
@@ -43,6 +46,11 @@ abstract class Resource
     private $entityManager;
 
     /**
+     * @var string
+     */
+    protected $key = 'resource';
+
+    /**
      * Construct
      */
     public function __construct()
@@ -61,10 +69,14 @@ abstract class Resource
 
     /**
      * Default get method
+     *
+     * HEAD also maps to this
+     *
+     * @param $id
      */
     public function get($id = null)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED);
+        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
@@ -77,18 +89,22 @@ abstract class Resource
 
     /**
      * Default put method
+     *
+     * @param $id
      */
     public function put($id)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED);
+        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
      * Default delete method
+     *
+     * @param $id
      */
     public function delete($id)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED);
+        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
@@ -100,8 +116,17 @@ abstract class Resource
     }
 
     /**
+     * General patch method
+     */
+    public function patch()
+    {
+        $this->response(self::STATUS_NOT_IMPLEMENTED);
+    }
+
+    /**
      * @param int $status
      * @param array $data
+     * @param array $allow
      */
     public static function response($status = 200, array $data = array(), $allow = array())
     {
@@ -120,6 +145,43 @@ abstract class Resource
         if (!empty($allow)) {
             $slim->response()->header('Allow', strtoupper(implode(',', $allow)));
         }
+
+        return;
+    }
+
+    /**
+     * @param \Exception $e
+     * @param int $status
+     */
+    public static function sendException(\Exception $e, $status = 500)
+    {
+        /**
+         * @var \Slim\Slim $slim
+         */
+        $slim = \Slim\Slim::getInstance();
+
+        $slim->status($status);
+        $slim->response()->header('Content-Type', 'application/json');
+        $data = array(
+            'type' => get_class($e),
+            'message' => $e->getMessage()
+        );
+        if($slim->config('debug')) {
+            $debugOpts = array(
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            );
+            $data = array_merge($data, $debugOpts);
+        }
+        //var_dump($e);exit;
+        $slim->response()->body(json_encode($data));
+
+        if (!empty($allow)) {
+            $slim->response()->header('Allow', strtoupper(implode(',', $allow)));
+        }
+
+        //Log exception
+        //Log::error($e);
 
         return;
     }
@@ -175,9 +237,10 @@ abstract class Resource
         $config->setProxyDir(__DIR__ . '/Entity/Proxy');
         $config->setProxyNamespace('Proxy');
 
-        $ini = parse_ini_file(__DIR__ . '/../../config/local.ini');
+        $ini = Config::getSection(__DIR__ . '/../../config/local.ini', 'database');
+
         $connectionOptions = array(
-            'driver'   => $ini['driv'],
+            'driver'   => $ini['driver'],
             'host'     => $ini['host'],
             'dbname'   => $ini['name'],
             'user'     => $ini['user'],
@@ -185,5 +248,9 @@ abstract class Resource
         );
 
         $this->entityManager = EntityManager::create($connectionOptions, $config);
+    }
+
+    public function formatResponse($code, $data, $message = null){
+        return Response::getResponseData($code, $message, $this->key, $data);
     }
 }

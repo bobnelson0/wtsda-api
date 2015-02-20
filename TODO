@@ -1,0 +1,9 @@
+- Logging
+--- Test Logger class
+--- Log on all exception
+--- Perf logging (app init to send response
+- Finish phpdoc
+- Clean up entity stuff
+- Make sure we can do /ent1/1/ent2/2, etc
+- Converstion class (string to bool, etc)
+- Hybrid entities? How?

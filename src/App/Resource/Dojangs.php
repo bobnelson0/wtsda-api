@@ -7,23 +7,23 @@
 namespace App\Resource;
 
 use App\Resource;
-use App\Service\RankGroups as RankGroupsService;
+use App\Service\Dojangs as DojangsService;
 use App\Util\Request;
 use \Doctrine\DBAL\DBALException;
 
 /**
- * Class RankGroups
+ * Class Dojangs
  * @package App\Resource
  */
-class RankGroups extends Resource
+class Dojangs extends Resource
 {
     /**
      * @var string
      */
-    protected $key = 'rank_groups';
+    protected $key = 'dojangs';
 
     /**
-     * @var \App\Service\RankGroups
+     * @var \App\Service\Dojangs
      */
     protected $service;
 
@@ -32,11 +32,11 @@ class RankGroups extends Resource
      */
     public function init()
     {
-        $this->setService(new RankGroupsService($this->getEntityManager()));
+        $this->setService(new DojangsService($this->getEntityManager()));
     }
 
     /**
-     * Get one or more RankGroup entities
+     * Get one or more Dojang entities
      * $id specifies a specific entity
      * If entity with $id is not found, 404: Not Found Returned
      *
@@ -50,9 +50,9 @@ class RankGroups extends Resource
                     $this->getSlim()->request()->params(),
                     $this->getSlim()->request()->headers()
                 );
-                $data = $this->getService()->getRankGroups($criteria);
+                $data = $this->getService()->getDojangs($criteria);
             } else {
-                $data = $this->getService()->getRankGroup($id);
+                $data = $this->getService()->getDojang($id);
             }
         } catch(\Exception $e) {
             self::sendException($e);
@@ -68,20 +68,20 @@ class RankGroups extends Resource
     }
 
     /**
-     * Create a new RankGroup entity
+     * Create a new Dojang entity
      */
     public function post()
     {
         $name = $this->getSlim()->request()->params('name');
-        $ord = intval($this->getSlim()->request()->params('ord'));
+        $desc = intval($this->getSlim()->request()->params('desc'));
 
-        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+        if (empty($name) || empty($desc) || $name === null || $desc === null) {
             self::response(self::STATUS_BAD_REQUEST);
             return;
         }
 
         try {
-            $data = $this->getService()->createRankGroup($name, $ord);
+            $data = $this->getService()->createDojang($name, $desc);
         } catch (DBALException $e) {
             self::response(self::STATUS_CONFLICT, array('data' => array('conflict')));
             return;
@@ -91,21 +91,21 @@ class RankGroups extends Resource
     }
 
     /**
-     * Update RankGroup
+     * Update Dojang
      *
      * @param $id
      */
     public function put($id)
     {
         $name = $this->getSlim()->request()->params('name');
-        $ord = $this->getSlim()->request()->params('ord');
+        $desc = $this->getSlim()->request()->params('desc');
 
-        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+        if (empty($name) || empty($desc) || $name === null || $desc === null) {
             self::response(self::STATUS_BAD_REQUEST);
             return;
         }
 
-        $data = $this->getService()->updateRankGroup($id, $name, $ord);
+        $data = $this->getService()->updateDojang($id, $name, $desc);
 
         if ($data === null) {
             self::response(self::STATUS_NOT_IMPLEMENTED);
@@ -116,13 +116,13 @@ class RankGroups extends Resource
     }
 
     /**
-     * Delete an RankGroup Entity
+     * Delete an Dojang Entity
      *
      * @param $id
      */
     public function delete($id)
     {
-        $status = $this->getService()->deleteRankGroup($id);
+        $status = $this->getService()->deleteDojang($id);
 
         if ($status === false) {
             self::response(self::STATUS_NOT_FOUND);
@@ -141,7 +141,7 @@ class RankGroups extends Resource
     }
 
     /**
-     * @return \App\Service\RankGroups
+     * @return \App\Service\Dojangs
      */
     public function getService()
     {
@@ -149,7 +149,7 @@ class RankGroups extends Resource
     }
 
     /**
-     * @param \App\Service\RankGroups $service
+     * @param \App\Service\Dojangs $service
      */
     public function setService($service)
     {

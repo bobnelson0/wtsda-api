@@ -8,27 +8,26 @@ namespace App\Service;
 
 use App\Service;
 use App\Util\Request;
-use Slim\Slim;
 
 /**
- * Class RankGroups
+ * Class Dojangs
  * @package App\Service
  */
-class RankGroups extends Service
+class Dojangs extends Service
 {
     /**
      * Entity path
      *
      * $var string
      */
-    protected $entityPath = 'App\Entity\RankGroup';
+    protected $entityPath = 'App\Entity\Dojang';
 
     /**
      * Entity alias
      *
      * $var string
      */
-    protected $entityAlias = 'rg';
+    protected $entityAlias = 'doj';
 
     /**
      * Default filters to apply when searching on this entity
@@ -42,12 +41,12 @@ class RankGroups extends Service
      *
      * @var array
      */
-    protected $defaultSorts = array(array('sort' => 'ord', 'dir' => 'asc'));
+    protected $defaultSorts = array(array('sort' => 'name', 'dir' => 'asc'));
 
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('ranks');
+    protected static $defaultEntitiesIncluded = array('dojangAddresses','dojangEmailAddresses','dojangPhoneNumbers');
 
     /**
      * @var array
@@ -58,10 +57,10 @@ class RankGroups extends Service
      * @param $id
      * @return array
      */
-    public function getRankGroup($id)
+    public function getDojang($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
-        /* @var \App\Entity\RankGroup $entity */
+        /* @var \App\Entity\Dojang $entity */
         $entity = $repository->find($id);
 
         if ($entity === null) {
@@ -75,7 +74,7 @@ class RankGroups extends Service
      * @param $criteria array list of query params (sort, offset, limit, etc)
      * @return array|null
      */
-    public function getRankGroups($criteria = array())
+    public function getDojangs($criteria = array())
     {
         $filters = isset($criteria['filters']) ? $criteria['filters'] : $this->defaultFilters;
         $sorts = isset($criteria['sorts']) ? $criteria['sorts'] : $this->defaultSorts;
@@ -125,18 +124,18 @@ class RankGroups extends Service
 
     /**
      * @param $name
-     * @param $ord
+     * @param $desc
      * @return array
      */
-    public function createRankGroup($name, $ord)
+    public function createDojang($name, $desc)
     {
         /**
-         * @var \App\Entity\RankGroup $entity
+         * @var \App\Entity\Dojang $entity
          */
         $entityClass = '\\' . $this->entityPath;
         $entity = new $entityClass();
         $entity->setName($name);
-        $entity->setOrd($ord);
+        $entity->setDescription($desc);
 
         $this->persistAndFlush($entity);
 
@@ -146,15 +145,15 @@ class RankGroups extends Service
     /**
      * @param $id
      * @param $name
-     * @param $ord
+     * @param $desc
      * @return array
      */
-    public function updateRankGroup($id, $name, $ord)
+    public function updateDojang($id, $name, $desc)
     {
-        /**
-        * @var \App\Entity\RankGroup $entity
-        */
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
+        /**
+         * @var \App\Entity\Dojang $entity
+         */
         $entity = $repository->find($id);
 
         if ($entity === null) {
@@ -162,7 +161,7 @@ class RankGroups extends Service
         }
 
         $entity->setName($name);
-        $entity->setOrd($ord);
+        $entity->setDescription($desc);
         $entity->setUpdated(new \DateTime());
 
         $this->persistAndFlush($entity);
@@ -170,13 +169,12 @@ class RankGroups extends Service
         return self::formatData($entity);
     }
 
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function deleteRankGroup($id)
+    public function deleteDojang($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
+        /**
+         * @var \App\Entity\Dojang $entity
+         */
         $entity = $repository->find($id);
 
         if ($entity === null) {
@@ -190,7 +188,7 @@ class RankGroups extends Service
     }
 
     /**
-     * @param \App\Entity\RankGroup $data
+     * @param \App\Entity\Dojang $data
      * @param $getRelations
      * @return array
      */
@@ -198,17 +196,35 @@ class RankGroups extends Service
         $formatted = array(
             'id' => $data->getId(),
             'name' => $data->getName(),
-            'ord' => $data->getOrd(),
+            'description' => $data->getDescription(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'rankGroups', 'self')
+            'links' => self::formatLink($data, 'dojangs', 'self')
         );
 
-        if($getRelations && self::isIncluded('ranks')) {
-            $ranks = $data->getRanks();
-            if (!empty($ranks)) {
-                foreach ($ranks as $rank) {
-                    $formatted['ranks'][] = Ranks::formatData($rank, false);
+        if($getRelations && self::isIncluded('dojangAddresses')) {
+            $addresses = $data->getAddresses();
+            if (!empty($addresses)) {
+                foreach ($addresses as $address) {
+                    $formatted['addresses'][] = $address;//Ranks::formatData($address, false);
+                }
+            }
+        }
+
+        if($getRelations && self::isIncluded('dojangEmailAddresses')) {
+            $emailAddresses = $data->getEmailAddresses();
+            if (!empty($emailAddresses)) {
+                foreach ($emailAddresses as $emailAddress) {
+                    $formatted['emailAddresses'][] = $emailAddress;//Ranks::formatData($address, false);
+                }
+            }
+        }
+
+        if($getRelations && self::isIncluded('dojangPhoneNumbers')) {
+            $phoneNumbers = $data->getPhoneNumbers();
+            if (!empty($phoneNumbers)) {
+                foreach ($phoneNumbers as $phoneNumber) {
+                    $formatted['phoneNumbers'][] = $phoneNumber;//Ranks::formatData($address, false);
                 }
             }
         }

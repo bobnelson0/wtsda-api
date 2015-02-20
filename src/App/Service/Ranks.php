@@ -11,24 +11,24 @@ use App\Util\Request;
 use Slim\Slim;
 
 /**
- * Class RankGroups
+ * Class Ranks
  * @package App\Service
  */
-class RankGroups extends Service
+class Ranks extends Service
 {
     /**
      * Entity path
      *
      * $var string
      */
-    protected $entityPath = 'App\Entity\RankGroup';
+    protected $entityPath = 'App\Entity\Rank';
 
     /**
      * Entity alias
      *
      * $var string
      */
-    protected $entityAlias = 'rg';
+    protected $entityAlias = 'r';
 
     /**
      * Default filters to apply when searching on this entity
@@ -47,7 +47,7 @@ class RankGroups extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('ranks');
+    protected static $defaultEntitiesIncluded = array('rankGroup');
 
     /**
      * @var array
@@ -58,10 +58,10 @@ class RankGroups extends Service
      * @param $id
      * @return array
      */
-    public function getRankGroup($id)
+    public function getRank($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
-        /* @var \App\Entity\RankGroup $entity */
+        /* @var \App\Entity\Rank $entity */
         $entity = $repository->find($id);
 
         if ($entity === null) {
@@ -75,8 +75,9 @@ class RankGroups extends Service
      * @param $criteria array list of query params (sort, offset, limit, etc)
      * @return array|null
      */
-    public function getRankGroups($criteria = array())
+    public function getRanks($criteria = array())
     {
+        //TODO Fix filters
         $filters = isset($criteria['filters']) ? $criteria['filters'] : $this->defaultFilters;
         $sorts = isset($criteria['sorts']) ? $criteria['sorts'] : $this->defaultSorts;
         $offset = isset($criteria['offset']) ? $criteria['offset'] : Request::getDefaultOffset();
@@ -88,18 +89,14 @@ class RankGroups extends Service
                             ->where('1=1')
                             ->setFirstResult($offset)
                             ->setMaxResults($limit);
-        if(!empty($filters)) {
+/*        if(!empty($filters)) {
             foreach($filters as $filter) {
                 $field = $this->entityAlias .'.'.$filter['filter'];
                 $op = $filter['op'];
                 $val = $filter['val'];
-                if($op == 'LIKE') {
-                    $qb->andWhere("$field LIKE '%$val%'");
-                } else {
-                    $qb->andWhere("$field $op '$val'");
-                }
+                $qb->andWhere("$field $op '$val'");
             }
-        }
+        }*/
 
         if(!empty($sorts)) {
             foreach($sorts as $sort) {
@@ -128,10 +125,10 @@ class RankGroups extends Service
      * @param $ord
      * @return array
      */
-    public function createRankGroup($name, $ord)
+    public function createRank($name, $ord)
     {
         /**
-         * @var \App\Entity\RankGroup $entity
+         * @var \App\Entity\Rank $entity
          */
         $entityClass = '\\' . $this->entityPath;
         $entity = new $entityClass();
@@ -149,10 +146,10 @@ class RankGroups extends Service
      * @param $ord
      * @return array
      */
-    public function updateRankGroup($id, $name, $ord)
+    public function updateRank($id, $name, $ord)
     {
         /**
-        * @var \App\Entity\RankGroup $entity
+        * @var \App\Entity\Rank $entity
         */
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
@@ -174,7 +171,7 @@ class RankGroups extends Service
      * @param $id
      * @return bool
      */
-    public function deleteRankGroup($id)
+    public function deleteRank($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
@@ -190,26 +187,25 @@ class RankGroups extends Service
     }
 
     /**
-     * @param \App\Entity\RankGroup $data
+     * @param \App\Entity\Rank $data
      * @param $getRelations
      * @return array
      */
     public static function formatData($data, $getRelations = true) {
+
         $formatted = array(
             'id' => $data->getId(),
             'name' => $data->getName(),
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'rankGroups', 'self')
+            'links' => self::formatLink($data, 'ranks', 'self')
         );
 
-        if($getRelations && self::isIncluded('ranks')) {
-            $ranks = $data->getRanks();
-            if (!empty($ranks)) {
-                foreach ($ranks as $rank) {
-                    $formatted['ranks'][] = Ranks::formatData($rank, false);
-                }
+        if($getRelations && self::isIncluded('rankGroup')) {
+            $rankGroup = $data->getRankGroup();
+            if (!empty($rankGroup)) {
+                $formatted['rankGroup'][] = RankGroups::formatData($rankGroup, false);
             }
         }
 

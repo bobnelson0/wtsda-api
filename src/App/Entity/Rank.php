@@ -12,13 +12,6 @@ use Doctrine\ORM\Mapping;
 class Rank extends Entity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
      * @Column(type="string", length=30, unique=true)
      */
     protected $name;
