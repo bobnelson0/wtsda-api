@@ -204,8 +204,9 @@ class Ranks extends Service
 
         if($getRelations && self::isIncluded('rankGroup')) {
             $rankGroup = $data->getRankGroup();
+            $formatted['rankGroup'] = null;
             if (!empty($rankGroup)) {
-                $formatted['rankGroup'][] = RankGroups::formatData($rankGroup, false);
+                $formatted['rankGroup'] = RankGroups::formatData($rankGroup, false);
             }
         }
 

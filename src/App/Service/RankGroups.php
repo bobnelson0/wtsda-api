@@ -206,6 +206,7 @@ class RankGroups extends Service
 
         if($getRelations && self::isIncluded('ranks')) {
             $ranks = $data->getRanks();
+            $formatted['ranks'] = array();
             if (!empty($ranks)) {
                 foreach ($ranks as $rank) {
                     $formatted['ranks'][] = Ranks::formatData($rank, false);

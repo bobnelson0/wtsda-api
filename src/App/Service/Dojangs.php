@@ -6,6 +6,7 @@
  */
 namespace App\Service;
 
+use App\Entity\DojangEmailAddress;
 use App\Service;
 use App\Util\Request;
 
@@ -204,27 +205,30 @@ class Dojangs extends Service
 
         if($getRelations && self::isIncluded('dojangAddresses')) {
             $addresses = $data->getAddresses();
+            $formatted['addresses'] = array();
             if (!empty($addresses)) {
                 foreach ($addresses as $address) {
-                    $formatted['addresses'][] = $address;//Ranks::formatData($address, false);
+                    $formatted['addresses'][] = DojangAddresses::formatData($address, false);
                 }
             }
         }
 
         if($getRelations && self::isIncluded('dojangEmailAddresses')) {
             $emailAddresses = $data->getEmailAddresses();
+            $formatted['emailAddresses'] = array();
             if (!empty($emailAddresses)) {
                 foreach ($emailAddresses as $emailAddress) {
-                    $formatted['emailAddresses'][] = $emailAddress;//Ranks::formatData($address, false);
+                    $formatted['emailAddresses'][] = DojangEmailAddresses::formatData($emailAddress, false);
                 }
             }
         }
 
         if($getRelations && self::isIncluded('dojangPhoneNumbers')) {
             $phoneNumbers = $data->getPhoneNumbers();
+            $formatted['phoneNumbers'] = array();
             if (!empty($phoneNumbers)) {
                 foreach ($phoneNumbers as $phoneNumber) {
-                    $formatted['phoneNumbers'][] = $phoneNumber;//Ranks::formatData($address, false);
+                    $formatted['phoneNumbers'][] = DojangPhoneNumbers::formatData($phoneNumber, false);
                 }
             }
         }
