@@ -67,7 +67,7 @@ class Dojangs extends Service
             return null;
         }
         
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -116,7 +116,7 @@ class Dojangs extends Service
         $data = array();
         foreach ($entities as $entity)
         {
-            $data[] = self::formatData($entity);
+            $data[] = static::formatData($entity);
         }
 
         return $data;
@@ -139,7 +139,7 @@ class Dojangs extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -166,7 +166,7 @@ class Dojangs extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     public function deleteDojang($id)
@@ -199,10 +199,10 @@ class Dojangs extends Service
             'description' => $data->getDescription(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangs', self::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'dojangs', static::LINK_RELATION_SELF)
         );
 
-        if($getRelations && self::isIncluded('dojangAddresses')) {
+        if($getRelations && static::isIncluded('dojangAddresses')) {
             $addresses = $data->getAddresses();
             $formatted['addresses'] = array();
             if (!empty($addresses)) {
@@ -212,7 +212,7 @@ class Dojangs extends Service
             }
         }
 
-        if($getRelations && self::isIncluded('dojangEmailAddresses')) {
+        if($getRelations && static::isIncluded('dojangEmailAddresses')) {
             $emailAddresses = $data->getEmailAddresses();
             $formatted['emailAddresses'] = array();
             if (!empty($emailAddresses)) {
@@ -222,7 +222,7 @@ class Dojangs extends Service
             }
         }
 
-        if($getRelations && self::isIncluded('dojangPhoneNumbers')) {
+        if($getRelations && static::isIncluded('dojangPhoneNumbers')) {
             $phoneNumbers = $data->getPhoneNumbers();
             $formatted['phoneNumbers'] = array();
             if (!empty($phoneNumbers)) {
@@ -231,7 +231,7 @@ class Dojangs extends Service
                 }
             }
         }
-        //$formatted = Service::dataClean($formatted);
+
         return $formatted;
     }
 }

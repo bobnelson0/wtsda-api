@@ -64,11 +64,11 @@ abstract class Service
         $exclude = $request->params('excl');
 
         if(empty($include)) {
-            $include = self::$defaultEntitiesIncluded;
+            $include = static::$defaultEntitiesIncluded;
         }
 
         if(empty($exclude)) {
-            $exclude = self::$defaultEntitiesExcluded;
+            $exclude = static::$defaultEntitiesExcluded;
         }
 
         if(in_array($key, $include)) {
@@ -78,6 +78,7 @@ abstract class Service
         if(in_array($key, $exclude)) {
             return false;
         }
+
         return true;
     }
 
@@ -91,19 +92,10 @@ abstract class Service
     public static function formatLink($data, $entity, $relation) {
         $rootUri = Slim::getInstance()->request()->getRootUri();
         $id = $data->getId();
+
         return array(
             'rel' => $relation,
             'href' => "$rootUri/$entity/$id"
         );
     }
-
-    public static function dataClean($data) {
-        foreach($data as $key => $val) {
-            if($key == 'created' || $key == 'updated'){
-                unset($data[$key]);
-            }
-        }
-        return $data;
-    }
-
 }
