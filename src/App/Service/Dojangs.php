@@ -46,12 +46,7 @@ class Dojangs extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('dojangRegion','dojangAddresses','dojangEmailAddresses','dojangPhoneNumbers');
-
-    /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
+    protected static $defaultEntitiesIncluded = array('region','addresses','emailAddresses','phoneNumbers');
 
     /**
      * @param $id
@@ -202,12 +197,12 @@ class Dojangs extends Service
             'links' => static::formatLink($data, 'dojangs', static::LINK_RELATION_SELF)
         );
 
-        if($getRelations && static::isIncluded('dojangRegion')) {
+        if($getRelations && static::isIncluded('region')) {
             $region = $data->getRegion();
             $formatted['region'] = Regions::formatData($region);
         }
 
-        if($getRelations && static::isIncluded('dojangAddresses')) {
+        if($getRelations && static::isIncluded('addresses')) {
             $addresses = $data->getAddresses();
             $formatted['addresses'] = array();
             if (!empty($addresses)) {
@@ -217,7 +212,7 @@ class Dojangs extends Service
             }
         }
 
-        if($getRelations && static::isIncluded('dojangEmailAddresses')) {
+        if($getRelations && static::isIncluded('emailAddresses')) {
             $emailAddresses = $data->getEmailAddresses();
             $formatted['emailAddresses'] = array();
             if (!empty($emailAddresses)) {
@@ -227,7 +222,7 @@ class Dojangs extends Service
             }
         }
 
-        if($getRelations && static::isIncluded('dojangPhoneNumbers')) {
+        if($getRelations && static::isIncluded('phoneNumbers')) {
             $phoneNumbers = $data->getPhoneNumbers();
             $formatted['phoneNumbers'] = array();
             if (!empty($phoneNumbers)) {

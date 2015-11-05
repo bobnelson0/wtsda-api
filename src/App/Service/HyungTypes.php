@@ -43,12 +43,7 @@ class HyungTypes  extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('hyung');
-
-    /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
+    protected static $defaultEntitiesIncluded = array('hyungs');
 
     /**
      * @param $id
@@ -200,7 +195,7 @@ class HyungTypes  extends Service
             $formatted['hyungs'] = array();
             if (!empty($hyungs)) {
                 foreach ($hyungs as $hyung) {
-                    $formatted['hyung'][] = Hyungs::formatData($hyung, false);
+                    $formatted['hyungs'][] = Hyungs::formatData($hyung, false);
                 }
             }
         }

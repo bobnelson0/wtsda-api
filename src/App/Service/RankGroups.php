@@ -49,11 +49,6 @@ class RankGroups extends Service
     protected static $defaultEntitiesIncluded = array('ranks');
 
     /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
-    /**
      * @param $id
      * @return array
      */

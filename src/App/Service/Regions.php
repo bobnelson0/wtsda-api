@@ -49,11 +49,6 @@ class Regions extends Service
     protected static $defaultEntitiesIncluded = array();
 
     /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
-    /**
      * @param $id
      * @return array
      */

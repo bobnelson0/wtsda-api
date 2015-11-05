@@ -49,11 +49,6 @@ class DojangAddresses extends Service
     protected static $defaultEntitiesIncluded = array();
 
     /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
-    /**
      * @param \App\Entity\DojangAddress $data
      * @param $getRelations
      * @return array

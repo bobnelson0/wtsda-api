@@ -47,11 +47,6 @@ class Hyungs extends Service
     protected static $defaultEntitiesIncluded = array('hyungType');
 
     /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
-    /**
      * @param $id
      * @return array
      */

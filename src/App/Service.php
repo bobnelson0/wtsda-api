@@ -17,11 +17,6 @@ abstract class Service
      */
     protected static $defaultEntitiesIncluded = array();
 
-    /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
     public function __construct(\Doctrine\ORM\EntityManager $entityManager)
     {
         $this->setEntityManager($entityManager);
@@ -61,22 +56,18 @@ abstract class Service
         //TODO Fix/Test me
         $request = Slim::getInstance()->request();
         $include = $request->params('incl');
-        $exclude = $request->params('excl');
 
-        if(empty($include) && empty($exclude)) {
+        if(empty($include)) {
             $include = static::$defaultEntitiesIncluded;
-            $exclude = static::$defaultEntitiesExcluded;
+        } else {
+            $include = explode(',', $include);
         }
 
         if(in_array($key, $include)) {
             return true;
         }
 
-        if(in_array($key, $exclude)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**

@@ -50,11 +50,6 @@ class DojangPhoneNumbers extends Service
     protected static $defaultEntitiesIncluded = array();
 
     /**
-     * @var array
-     */
-    protected static $defaultEntitiesExcluded = array();
-
-    /**
      * @param \App\Entity\DojangPhoneNumber $data
      * @param $getRelations
      * @return array
