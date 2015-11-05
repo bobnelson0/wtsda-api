@@ -96,10 +96,10 @@ class Hyung extends Entity
     /**
      * Set type
      *
-     * @param \Wtsda\CoreBundle\Entity\HyungType $type
+     * @param HyungType $type
      * @return Hyung
      */
-    public function setType(\Wtsda\CoreBundle\Entity\HyungType $type = null)
+    public function setType(HyungType $type = null)
     {
         $this->type = $type;
         return $this;
@@ -108,7 +108,7 @@ class Hyung extends Entity
     /**
      * Get type
      *
-     * @return \Wtsda\CoreBundle\Entity\HyungType 
+     * @return HyungType 
      */
     public function getType()
     {

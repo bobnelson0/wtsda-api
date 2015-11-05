@@ -6,7 +6,6 @@
  */
 namespace App\Service;
 
-use App\Entity\DojangEmailAddress;
 use App\Service;
 use App\Util\Request;
 
@@ -200,7 +199,7 @@ class Dojangs extends Service
             'description' => $data->getDescription(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangs', 'self')
+            'links' => self::formatLink($data, 'dojangs', self::LINK_RELATION_SELF)
         );
 
         if($getRelations && self::isIncluded('dojangAddresses')) {
@@ -232,7 +231,7 @@ class Dojangs extends Service
                 }
             }
         }
-
+        //$formatted = Service::dataClean($formatted);
         return $formatted;
     }
 }

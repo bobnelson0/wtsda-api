@@ -66,7 +66,7 @@ class DojangPhoneNumbers extends Service
             'phoneNumber' => $data->getNumber(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangPhoneNumbers', 'self')
+            'links' => self::formatLink($data, 'dojangPhoneNumbers', self::LINK_RELATION_SELF)
         );
 
         return $formatted;

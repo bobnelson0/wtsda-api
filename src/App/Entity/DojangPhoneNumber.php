@@ -36,10 +36,10 @@ class DojangPhoneNumber extends MappedSuperClass\PhoneNumber
     /**
      * Set dojang
      *
-     * @param \Wtsda\CoreBundle\Entity\Dojang $dojang
+     * @param Dojang $dojang
      * @return DojangPhoneNumber
      */
-    public function setDojang(\Wtsda\CoreBundle\Entity\Dojang $dojang = null)
+    public function setDojang(Dojang $dojang = null)
     {
         $this->dojang = $dojang;
         return $this;
@@ -48,7 +48,7 @@ class DojangPhoneNumber extends MappedSuperClass\PhoneNumber
     /**
      * Get dojang
      *
-     * @return \Wtsda\CoreBundle\Entity\Dojang
+     * @return Dojang
      */
     public function getDojang()
     {

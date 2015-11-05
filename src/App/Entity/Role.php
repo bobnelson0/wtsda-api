@@ -172,7 +172,7 @@ class Role extends Entity
     /**
      * Add permissions
      *
-     * @param \Wtsda\CoreBundle\Entity\Permission $permissions
+     * @param Permission $permissions
      * @return Role
      */
     public function addPermission(Permission $permissions)
@@ -184,7 +184,7 @@ class Role extends Entity
     /**
      * Remove permissions
      *
-     * @param \Wtsda\CoreBundle\Entity\Permission $permissions
+     * @param Permission $permissions
      * @return Role
      */
     public function removePermission(Permission $permissions)

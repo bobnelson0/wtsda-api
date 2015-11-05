@@ -6,6 +6,7 @@ use Slim\Slim;
 
 abstract class Service
 {
+    const LINK_RELATION_SELF = 'self';
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -94,6 +95,15 @@ abstract class Service
             'rel' => $relation,
             'href' => "$rootUri/$entity/$id"
         );
+    }
+
+    public static function dataClean($data) {
+        foreach($data as $key => $val) {
+            if($key == 'created' || $key == 'updated'){
+                unset($data[$key]);
+            }
+        }
+        return $data;
     }
 
 }

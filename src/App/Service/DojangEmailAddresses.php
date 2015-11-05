@@ -65,7 +65,7 @@ class DojangEmailAddresses extends Service
             'email' => $data->getEmail(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangAddresses', 'self')
+            'links' => self::formatLink($data, 'dojangAddresses', self::LINK_RELATION_SELF)
         );
 
         return $formatted;

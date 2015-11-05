@@ -201,7 +201,7 @@ class RankGroups extends Service
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'rankGroups', 'self')
+            'links' => self::formatLink($data, 'rankGroups', self::LINK_RELATION_SELF)
         );
 
         if($getRelations && self::isIncluded('ranks')) {

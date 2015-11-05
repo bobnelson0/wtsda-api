@@ -12,7 +12,7 @@ $config->setProxyNamespace('Proxy');
 
 $ini = parse_ini_file(__DIR__ . '/config/local.ini');
 $connectionOptions = array(
-    'driver'   => $ini['driv'],
+    'driver'   => $ini['driver'],
     'host'     => $ini['host'],
     'dbname'   => $ini['name'],
     'user'     => $ini['user'],

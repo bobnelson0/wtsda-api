@@ -266,7 +266,7 @@ class User extends Entity
     /**
      * Add permissions
      *
-     * @param \Wtsda\CoreBundle\Entity\Permission $permissions
+     * @param Permission $permissions
      * @return User
      */
     public function addPermission(Permission $permissions)
@@ -278,7 +278,7 @@ class User extends Entity
     /**
      * Remove permissions
      *
-     * @param \Wtsda\CoreBundle\Entity\Permission $permissions
+     * @param Permission $permissions
      * @return User
      */
     public function removePermission(Permission $permissions)

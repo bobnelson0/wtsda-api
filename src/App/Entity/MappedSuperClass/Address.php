@@ -181,14 +181,14 @@ class Address extends Entity
     protected $pointOfInterest;
 
     /**
-     * @Column(type="decimal", precision=18, scale=12, nullable=true)
+     * @Column(type="decimal", precision=17, scale=14, nullable=true)
      * Geographic coordinate that specifies the north-south position of a point on the Earth's surface.
      * Ranges from -90 to 90
      */
     protected $latitude;
 
     /**
-     * @Column(type="decimal", precision=18, scale=12, nullable=true)
+     * @Column(type="decimal", precision=17, scale=14, nullable=true)
      * Geographic coordinate that specifies the east-west position of a point on the Earth's surface.
      * Ranges from -180 to 180
      */

@@ -36,10 +36,10 @@ class DojangEmailAddress extends MappedSuperClass\EmailAddress
     /**
      * Set dojang
      *
-     * @param \Wtsda\CoreBundle\Entity\Dojang $dojang
+     * @param Dojang $dojang
      * @return DojangEmailAddress
      */
-    public function setDojang(\Wtsda\CoreBundle\Entity\Dojang $dojang = null)
+    public function setDojang(Dojang $dojang = null)
     {
         $this->dojang = $dojang;
         return $this;
@@ -48,7 +48,7 @@ class DojangEmailAddress extends MappedSuperClass\EmailAddress
     /**
      * Get dojang
      *
-     * @return \Wtsda\CoreBundle\Entity\Dojang
+     * @return Dojang
      */
     public function getDojang()
     {

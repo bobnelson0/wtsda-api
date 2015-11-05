@@ -117,10 +117,10 @@ class Dojang extends Entity
     /**
      * Set region
      *
-     * @param \Wtsda\CoreBundle\Entity\Region $region
+     * @param Region $region
      * @return Dojang
      */
-    public function setRegion(\Wtsda\CoreBundle\Entity\Region $region = null)
+    public function setRegion(Region $region = null)
     {
         $this->region = $region;
         return $this;
@@ -129,7 +129,7 @@ class Dojang extends Entity
     /**
      * Get region
      *
-     * @return \Wtsda\CoreBundle\Entity\Region
+     * @return Region
      */
     public function getRegion()
     {
@@ -139,10 +139,10 @@ class Dojang extends Entity
     /**
      * Add addresses
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangAddress $addresses
+     * @param DojangAddress
      * @return Dojang
      */
-    public function addAddress(\Wtsda\CoreBundle\Entity\DojangAddress $addresses)
+    public function addAddress(DojangAddress $addresses)
     {
         $this->addresses[] = $addresses;
         return $this;
@@ -151,10 +151,10 @@ class Dojang extends Entity
     /**
      * Remove addresses
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangAddress $addresses
+     * @param DojangAddress
      * @return Dojang
      */
-    public function removeAddress(\Wtsda\CoreBundle\Entity\DojangAddress $addresses)
+    public function removeAddress(DojangAddress $addresses)
     {
         $this->addresses->removeElement($addresses);
         return $this;
@@ -173,10 +173,10 @@ class Dojang extends Entity
     /**
      * Add phoneNumbers
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangPhoneNumber $phoneNumbers
+     * @param DojangPhoneNumber $phoneNumbers
      * @return Dojang
      */
-    public function addPhoneNumber(\Wtsda\CoreBundle\Entity\DojangPhoneNumber $phoneNumbers)
+    public function addPhoneNumber(DojangPhoneNumber $phoneNumbers)
     {
         $this->phoneNumbers[] = $phoneNumbers;
         return $this;
@@ -185,10 +185,10 @@ class Dojang extends Entity
     /**
      * Remove phoneNumbers
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangPhoneNumber $phoneNumbers
+     * @param DojangPhoneNumber $phoneNumbers
      * @return Dojang
      */
-    public function removePhoneNumber(\Wtsda\CoreBundle\Entity\DojangPhoneNumber $phoneNumbers)
+    public function removePhoneNumber(DojangPhoneNumber $phoneNumbers)
     {
         $this->phoneNumbers->removeElement($phoneNumbers);
         return $this;
@@ -207,10 +207,10 @@ class Dojang extends Entity
     /**
      * Add emailAddresses
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangEmailAddress $emailAddresses
+     * @param DojangEmailAddress $emailAddresses
      * @return Dojang
      */
-    public function addEmailAddresses(\Wtsda\CoreBundle\Entity\DojangEmailAddress $emailAddresses)
+    public function addEmailAddresses(DojangEmailAddress $emailAddresses)
     {
         $this->emailAddresses[] = $emailAddresses;
         return $this;
@@ -219,10 +219,10 @@ class Dojang extends Entity
     /**
      * Remove emailAddresses
      *
-     * @param \Wtsda\CoreBundle\Entity\DojangEmailAddress $emailAddresses
+     * @param DojangEmailAddress $emailAddresses
      * @return Dojang
      */
-    public function removeEmailAddresses(\Wtsda\CoreBundle\Entity\DojangEmailAddress $emailAddresses)
+    public function removeEmailAddresses(DojangEmailAddress $emailAddresses)
     {
         $this->emailAddresses->removeElement($emailAddresses);
         return $this;
