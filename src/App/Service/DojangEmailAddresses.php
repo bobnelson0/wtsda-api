@@ -46,7 +46,7 @@ class DojangEmailAddresses extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array();
+    protected static $defaultEntitiesIncluded = array('dojang');
 
     /**
      * @param \App\Entity\DojangEmailAddress $data
