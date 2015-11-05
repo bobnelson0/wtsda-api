@@ -58,16 +58,13 @@ abstract class Service
      * @return bool
      */
     public static function isIncluded($key) {
-        //TODO Test me
+        //TODO Fix/Test me
         $request = Slim::getInstance()->request();
         $include = $request->params('incl');
         $exclude = $request->params('excl');
 
-        if(empty($include)) {
+        if(empty($include) && empty($exclude)) {
             $include = static::$defaultEntitiesIncluded;
-        }
-
-        if(empty($exclude)) {
             $exclude = static::$defaultEntitiesExcluded;
         }
 

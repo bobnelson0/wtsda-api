@@ -46,7 +46,7 @@ class Dojangs extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('dojangAddresses','dojangEmailAddresses','dojangPhoneNumbers');
+    protected static $defaultEntitiesIncluded = array('dojangRegion','dojangAddresses','dojangEmailAddresses','dojangPhoneNumbers');
 
     /**
      * @var array
@@ -201,6 +201,11 @@ class Dojangs extends Service
             'updated' => $data->getUpdated(),
             'links' => static::formatLink($data, 'dojangs', static::LINK_RELATION_SELF)
         );
+
+        if($getRelations && static::isIncluded('dojangRegion')) {
+            $region = $data->getRegion();
+            $formatted['region'] = Regions::formatData($region);
+        }
 
         if($getRelations && static::isIncluded('dojangAddresses')) {
             $addresses = $data->getAddresses();

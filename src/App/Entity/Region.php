@@ -20,9 +20,9 @@ class Region extends Entity
     protected $id;
 
     /**
-     * @Column(type="integer", unique=true)
+     * @Column(name="number", type="integer", unique=true)
      */
-    protected $regionNumber;
+    protected $number;
 
     /**
      * @Column(type="string", length=255)
@@ -60,27 +60,27 @@ class Region extends Entity
     /**
      * Set number
      *
-     * @param string $regionNumber
-     * @throws \InvalidArgumentException if $regionNumber is not an integer
+     * @param string $number
+     * @throws \InvalidArgumentException if $number is not an integer
      * @return Region
      */
-    public function setRegionNumber($regionNumber)
+    public function setNumber($number)
     {
-        if(!is_int($regionNumber)) {
+        if(!is_int($number)) {
             throw new \InvalidArgumentException;
         }
-        $this->regionNumber = $regionNumber;
+        $this->number = $number;
         return $this;
     }
 
     /**
-     * Get regionNumber
+     * Get number
      *
      * @return integer
      */
-    public function getRegionNumber()
+    public function getNumber()
     {
-        return $this->regionNumber;
+        return $this->number;
     }
 
     /**
@@ -135,7 +135,7 @@ class Region extends Entity
      * Add dojangs
      *
      * @param Dojang $dojangs
-     * @return address
+     * @return Region
      */
     public function addDojang(Dojang $dojangs)
     {
