@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping;
  */
 class HyungType extends Entity
 {
-
     /**
      * @Id
      * @Column(type="integer")

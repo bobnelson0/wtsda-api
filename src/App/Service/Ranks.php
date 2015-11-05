@@ -8,7 +8,6 @@ namespace App\Service;
 
 use App\Service;
 use App\Util\Request;
-use Slim\Slim;
 
 /**
  * Class Ranks

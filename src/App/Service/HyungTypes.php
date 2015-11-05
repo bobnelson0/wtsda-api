@@ -1,33 +1,30 @@
 <?php
 /**
  * User: Robert S. Nelson <bob.nelson@gmail.com>
- * Date: 2015-01-08
- * Time: 11:00 AM
+ * Date: 2015-11-05
+ * Time: 12:39 PM
  */
+
 namespace App\Service;
 
 use App\Service;
 use App\Util\Request;
 
-/**
- * Class RankGroups
- * @package App\Service
- */
-class RankGroups extends Service
+class HyungTypes  extends Service
 {
     /**
      * Entity path
      *
      * $var string
      */
-    protected $entityPath = 'App\Entity\RankGroup';
+    protected $entityPath = 'App\Entity\HyungType';
 
     /**
      * Entity alias
      *
      * $var string
      */
-    protected $entityAlias = 'rg';
+    protected $entityAlias = 'ht';
 
     /**
      * Default filters to apply when searching on this entity
@@ -41,12 +38,12 @@ class RankGroups extends Service
      *
      * @var array
      */
-    protected $defaultSorts = array(array('sort' => 'ord', 'dir' => 'asc'));
+    protected $defaultSorts = array(array('sort' => 'name', 'dir' => 'asc'));
 
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('ranks');
+    protected static $defaultEntitiesIncluded = array('hyung');
 
     /**
      * @var array
@@ -57,16 +54,16 @@ class RankGroups extends Service
      * @param $id
      * @return array
      */
-    public function getRankGroup($id)
+    public function getHyungType($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
-        /* @var \App\Entity\RankGroup $entity */
+        /* @var \App\Entity\HyungType $entity */
         $entity = $repository->find($id);
 
         if ($entity === null) {
             return null;
         }
-        
+
         return self::formatData($entity);
     }
 
@@ -74,7 +71,7 @@ class RankGroups extends Service
      * @param $criteria array list of query params (sort, offset, limit, etc)
      * @return array|null
      */
-    public function getRankGroups($criteria = array())
+    public function getHyungTypes($criteria = array())
     {
         $filters = isset($criteria['filters']) ? $criteria['filters'] : $this->defaultFilters;
         $sorts = isset($criteria['sorts']) ? $criteria['sorts'] : $this->defaultSorts;
@@ -82,11 +79,11 @@ class RankGroups extends Service
         $limit = isset($criteria['limit']) ? $criteria['limit'] : Request::getDefaultLimit();
 
         $qb = $this->getEntityManager()->createQueryBuilder()
-                            ->select($this->entityAlias)
-                            ->from($this->entityPath, $this->entityAlias)
-                            ->where('1=1')
-                            ->setFirstResult($offset)
-                            ->setMaxResults($limit);
+            ->select($this->entityAlias)
+            ->from($this->entityPath, $this->entityAlias)
+            ->where('1=1')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
         if(!empty($filters)) {
             foreach($filters as $filter) {
                 $field = $this->entityAlias .'.'.$filter['filter'];
@@ -124,18 +121,16 @@ class RankGroups extends Service
 
     /**
      * @param $name
-     * @param $ord
      * @return array
      */
-    public function createRankGroup($name, $ord)
+    public function createHyungType($name)
     {
         /**
-         * @var \App\Entity\RankGroup $entity
+         * @var \App\Entity\HyungType $entity
          */
         $entityClass = '\\' . $this->entityPath;
         $entity = new $entityClass();
         $entity->setName($name);
-        $entity->setOrd($ord);
 
         $this->persistAndFlush($entity);
 
@@ -145,14 +140,13 @@ class RankGroups extends Service
     /**
      * @param $id
      * @param $name
-     * @param $ord
      * @return array
      */
-    public function updateRankGroup($id, $name, $ord)
+    public function updateHyungType($id, $name)
     {
         /**
-        * @var \App\Entity\RankGroup $entity
-        */
+         * @var \App\Entity\HyungType $entity
+         */
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
 
@@ -161,7 +155,6 @@ class RankGroups extends Service
         }
 
         $entity->setName($name);
-        $entity->setOrd($ord);
         $entity->setUpdated(new \DateTime());
 
         $this->persistAndFlush($entity);
@@ -173,7 +166,7 @@ class RankGroups extends Service
      * @param $id
      * @return bool
      */
-    public function deleteRankGroup($id)
+    public function deleteHyungType($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
@@ -189,7 +182,7 @@ class RankGroups extends Service
     }
 
     /**
-     * @param \App\Entity\RankGroup $data
+     * @param \App\Entity\HyungType $data
      * @param $getRelations
      * @return array
      */
@@ -197,18 +190,17 @@ class RankGroups extends Service
         $formatted = array(
             'id' => $data->getId(),
             'name' => $data->getName(),
-            'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'rankGroups', self::LINK_RELATION_SELF)
+            'links' => self::formatLink($data, 'hyungType', self::LINK_RELATION_SELF)
         );
 
-        if($getRelations && self::isIncluded('ranks')) {
-            $ranks = $data->getRanks();
-            $formatted['ranks'] = array();
-            if (!empty($ranks)) {
-                foreach ($ranks as $rank) {
-                    $formatted['ranks'][] = Ranks::formatData($rank, false);
+        if($getRelations && self::isIncluded('hyungs')) {
+            $hyungs = $data->getHyungs();
+            $formatted['hyungs'] = array();
+            if (!empty($hyungs)) {
+                foreach ($hyungs as $hyung) {
+                    $formatted['hyung'][] = Hyungs::formatData($hyung, false);
                 }
             }
         }

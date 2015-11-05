@@ -1,33 +1,31 @@
 <?php
 /**
  * User: Robert S. Nelson <bob.nelson@gmail.com>
- * Date: 2015-01-08
- * Time: 11:00 AM
+ * Date: 2015-11-05
+ * Time: 12:32 PM
  */
+
 namespace App\Service;
 
+use App\Entity\HyungType;
 use App\Service;
 use App\Util\Request;
 
-/**
- * Class RankGroups
- * @package App\Service
- */
-class RankGroups extends Service
+class Hyungs extends Service
 {
     /**
      * Entity path
      *
      * $var string
      */
-    protected $entityPath = 'App\Entity\RankGroup';
+    protected $entityPath = 'App\Entity\Hyung';
 
     /**
      * Entity alias
      *
      * $var string
      */
-    protected $entityAlias = 'rg';
+    protected $entityAlias = 'h';
 
     /**
      * Default filters to apply when searching on this entity
@@ -46,7 +44,7 @@ class RankGroups extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('ranks');
+    protected static $defaultEntitiesIncluded = array('hyungType');
 
     /**
      * @var array
@@ -57,16 +55,16 @@ class RankGroups extends Service
      * @param $id
      * @return array
      */
-    public function getRankGroup($id)
+    public function getHyung($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
-        /* @var \App\Entity\RankGroup $entity */
+        /* @var \App\Entity\Hyung $entity */
         $entity = $repository->find($id);
 
         if ($entity === null) {
             return null;
         }
-        
+
         return self::formatData($entity);
     }
 
@@ -74,35 +72,32 @@ class RankGroups extends Service
      * @param $criteria array list of query params (sort, offset, limit, etc)
      * @return array|null
      */
-    public function getRankGroups($criteria = array())
+    public function getHyungs($criteria = array())
     {
+        //TODO Fix filters
         $filters = isset($criteria['filters']) ? $criteria['filters'] : $this->defaultFilters;
         $sorts = isset($criteria['sorts']) ? $criteria['sorts'] : $this->defaultSorts;
         $offset = isset($criteria['offset']) ? $criteria['offset'] : Request::getDefaultOffset();
         $limit = isset($criteria['limit']) ? $criteria['limit'] : Request::getDefaultLimit();
 
         $qb = $this->getEntityManager()->createQueryBuilder()
-                            ->select($this->entityAlias)
-                            ->from($this->entityPath, $this->entityAlias)
-                            ->where('1=1')
-                            ->setFirstResult($offset)
-                            ->setMaxResults($limit);
-        if(!empty($filters)) {
-            foreach($filters as $filter) {
-                $field = $this->entityAlias .'.'.$filter['filter'];
-                $op = $filter['op'];
-                $val = $filter['val'];
-                if($op == 'LIKE') {
-                    $qb->andWhere("$field LIKE '%$val%'");
-                } else {
-                    $qb->andWhere("$field $op '$val'");
-                }
-            }
-        }
+            ->select($this->entityAlias)
+            ->from($this->entityPath, $this->entityAlias)
+            ->where('1=1')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+        /*        if(!empty($filters)) {
+                    foreach($filters as $filter) {
+                        $field = $this->entityAlias .'.'.$filter['filter'];
+                        $op = $filter['op'];
+                        $val = $filter['val'];
+                        $qb->andWhere("$field $op '$val'");
+                    }
+                }*/
 
-        if(!empty($sorts)) {
-            foreach($sorts as $sort) {
-                $qb->addOrderBy($this->entityAlias .'.'. $sort['sort'], $sort['dir']);
+        if (!empty($sorts)) {
+            foreach ($sorts as $sort) {
+                $qb->addOrderBy($this->entityAlias . '.' . $sort['sort'], $sort['dir']);
             }
         }
 
@@ -114,8 +109,7 @@ class RankGroups extends Service
         }
 
         $data = array();
-        foreach ($entities as $entity)
-        {
+        foreach ($entities as $entity) {
             $data[] = self::formatData($entity);
         }
 
@@ -127,10 +121,10 @@ class RankGroups extends Service
      * @param $ord
      * @return array
      */
-    public function createRankGroup($name, $ord)
+    public function createHyung($name, $ord)
     {
         /**
-         * @var \App\Entity\RankGroup $entity
+         * @var \App\Entity\Hyung $entity
          */
         $entityClass = '\\' . $this->entityPath;
         $entity = new $entityClass();
@@ -148,11 +142,11 @@ class RankGroups extends Service
      * @param $ord
      * @return array
      */
-    public function updateRankGroup($id, $name, $ord)
+    public function updateHyung($id, $name, $ord)
     {
         /**
-        * @var \App\Entity\RankGroup $entity
-        */
+         * @var \App\Entity\Hyung $entity
+         */
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
 
@@ -173,7 +167,7 @@ class RankGroups extends Service
      * @param $id
      * @return bool
      */
-    public function deleteRankGroup($id)
+    public function deleteHyung($id)
     {
         $repository = $this->getEntityManager()->getRepository($this->entityPath);
         $entity = $repository->find($id);
@@ -189,27 +183,27 @@ class RankGroups extends Service
     }
 
     /**
-     * @param \App\Entity\RankGroup $data
+     * @param \App\Entity\Hyung $data
      * @param $getRelations
      * @return array
      */
-    public static function formatData($data, $getRelations = true) {
+    public static function formatData($data, $getRelations = true)
+    {
+
         $formatted = array(
             'id' => $data->getId(),
             'name' => $data->getName(),
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'rankGroups', self::LINK_RELATION_SELF)
+            'links' => self::formatLink($data, 'hyungs', self::LINK_RELATION_SELF)
         );
 
-        if($getRelations && self::isIncluded('ranks')) {
-            $ranks = $data->getRanks();
-            $formatted['ranks'] = array();
-            if (!empty($ranks)) {
-                foreach ($ranks as $rank) {
-                    $formatted['ranks'][] = Ranks::formatData($rank, false);
-                }
+        if ($getRelations && self::isIncluded('hyungType')) {
+            $hyungType = $data->getType();
+            $formatted['hyungType'] = null;
+            if (!empty($hyungType)) {
+                $formatted['hyungType'] = HyungTypes::formatData($hyungType, false);
             }
         }
 
