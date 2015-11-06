@@ -60,7 +60,7 @@ class Dojangs extends Resource
         }
 
         if ($data === null) {
-            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'rank group not found'));
+            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'dojang not found'));
             return;
         }
 
@@ -75,7 +75,7 @@ class Dojangs extends Resource
         $name = $this->getSlim()->request()->params('name');
         $desc = intval($this->getSlim()->request()->params('desc'));
 
-        if (empty($name) || empty($desc) || $name === null || $desc === null) {
+        if (empty($name) || empty($desc)) {
             static::response(static::STATUS_BAD_REQUEST);
             return;
         }
@@ -100,7 +100,7 @@ class Dojangs extends Resource
         $name = $this->getSlim()->request()->params('name');
         $desc = $this->getSlim()->request()->params('desc');
 
-        if (empty($name) || empty($desc) || $name === null || $desc === null) {
+        if (empty($name) || empty($desc)) {
             static::response(static::STATUS_BAD_REQUEST);
             return;
         }

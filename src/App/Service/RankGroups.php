@@ -71,36 +71,7 @@ class RankGroups extends Service
      */
     public function getRankGroups($criteria = array())
     {
-        $filters = isset($criteria['filters']) ? $criteria['filters'] : $this->defaultFilters;
-        $sorts = isset($criteria['sorts']) ? $criteria['sorts'] : $this->defaultSorts;
-        $offset = isset($criteria['offset']) ? $criteria['offset'] : Request::getDefaultOffset();
-        $limit = isset($criteria['limit']) ? $criteria['limit'] : Request::getDefaultLimit();
-
-        $qb = $this->getEntityManager()->createQueryBuilder()
-                            ->select($this->entityAlias)
-                            ->from($this->entityPath, $this->entityAlias)
-                            ->where('1=1')
-                            ->setFirstResult($offset)
-                            ->setMaxResults($limit);
-        if(!empty($filters)) {
-            foreach($filters as $filter) {
-                $field = $this->entityAlias .'.'.$filter['filter'];
-                $op = $filter['op'];
-                $val = $filter['val'];
-                if($op == 'LIKE') {
-                    $qb->andWhere("$field LIKE '%$val%'");
-                } else {
-                    $qb->andWhere("$field $op '$val'");
-                }
-            }
-        }
-
-        if(!empty($sorts)) {
-            foreach($sorts as $sort) {
-                $qb->addOrderBy($this->entityAlias .'.'. $sort['sort'], $sort['dir']);
-            }
-        }
-
+        $qb = $this->buildQuery($criteria);
         $query = $qb->getQuery();
         $entities = $query->getResult();
 
