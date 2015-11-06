@@ -27,11 +27,11 @@ class Request {
     protected static $defaultLimit = 25;
 
     public static function getDefaultOffset() {
-        return self::$defaultOffset;
+        return static::$defaultOffset;
     }
 
     public static function getDefaultLimit() {
-        return self::$defaultLimit;
+        return static::$defaultLimit;
     }
 
     public static function getRequestCriteria(array $params, \Slim\Http\Headers $headers)
@@ -41,11 +41,11 @@ class Request {
         $offset = isset($params['offset']) ? $params['offset'] : null;
         $limit = isset($params['limit']) ? $params['limit'] : null;
         $range = $headers->get('Range');
-        $sorts = isset($params['sorts']) ? self::getSorts($params['sorts']) : array();
-        $filters = isset($params['filters']) ? self::getFilters($params['filters']) : array();
+        $sorts = isset($params['sorts']) ? static::getSorts($params['sorts']) : array();
+        $filters = isset($params['filters']) ? static::getFilters($params['filters']) : array();
         $criteria = array_merge(
             $criteria,
-            self::getRange($offset, $limit, $range),
+            static::getRange($offset, $limit, $range),
             $sorts,
             $filters
         );
@@ -57,13 +57,13 @@ class Request {
         $range = array();
 
         if(!is_null($offset) && !is_null($limit)) {
-            return self::getRangeFromParams($offset, $limit);
+            return static::getRangeFromParams($offset, $limit);
         } else if(!is_null($rangeHeader)) {
-            return self::getRangeFromHeader($rangeHeader);
+            return static::getRangeFromHeader($rangeHeader);
         }
 
-        $range['offset'] = self::getDefaultOffset();
-        $range['limit'] = self::getDefaultLimit();
+        $range['offset'] = static::getDefaultOffset();
+        $range['limit'] = static::getDefaultLimit();
 
         return $range;
     }

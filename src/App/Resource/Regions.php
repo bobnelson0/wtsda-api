@@ -55,16 +55,16 @@ class Regions extends Resource
                 $data = $this->getService()->getRegion($id);
             }
         } catch(\Exception $e) {
-            self::sendException($e);
+            static::sendException($e);
             return;
         }
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_FOUND, $this->formatResponse(self::STATUS_NOT_FOUND, $data,'region not found'));
+            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'region not found'));
             return;
         }
 
-        self::response(self::STATUS_OK, $this->formatResponse(self::STATUS_OK, $data));
+        static::response(static::STATUS_OK, $this->formatResponse(static::STATUS_OK, $data));
     }
 
     /**
@@ -77,18 +77,18 @@ class Regions extends Resource
         $ord = intval($this->getSlim()->request()->params('ord'));
 
         if (empty($number) || empty($description) || empty($ord)) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         try {
             $data = $this->getService()->createRegion($number, $description, $ord);
         } catch (DBALException $e) {
-            self::response(self::STATUS_CONFLICT, array('data' => array('conflict')));
+            static::response(static::STATUS_CONFLICT, array('data' => array('conflict')));
             return;
         }
 
-        self::response(self::STATUS_CREATED, array('data' => $data));
+        static::response(static::STATUS_CREATED, array('data' => $data));
     }
 
     /**
@@ -103,18 +103,18 @@ class Regions extends Resource
         $ord = intval($this->getSlim()->request()->params('ord'));
 
         if (empty($number) || empty($description) || empty($ord)) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         $data = $this->getService()->updateRegion($id, $number, $description, $ord);
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_IMPLEMENTED);
+            static::response(static::STATUS_NOT_IMPLEMENTED);
             return;
         }
 
-        self::response(self::STATUS_NO_CONTENT);
+        static::response(static::STATUS_NO_CONTENT);
     }
 
     /**
@@ -127,11 +127,11 @@ class Regions extends Resource
         $status = $this->getService()->deleteRegion($id);
 
         if ($status === false) {
-            self::response(self::STATUS_NOT_FOUND);
+            static::response(static::STATUS_NOT_FOUND);
             return;
         }
 
-        self::response(self::STATUS_OK);
+        static::response(static::STATUS_OK);
     }
 
     /**
@@ -139,7 +139,7 @@ class Regions extends Resource
      */
     public function options()
     {
-        self::response(self::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
+        static::response(static::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
     }
 
     /**

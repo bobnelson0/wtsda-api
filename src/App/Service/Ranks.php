@@ -62,7 +62,7 @@ class Ranks extends Service
             return null;
         }
         
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -108,7 +108,7 @@ class Ranks extends Service
         $data = array();
         foreach ($entities as $entity)
         {
-            $data[] = self::formatData($entity);
+            $data[] = static::formatData($entity);
         }
 
         return $data;
@@ -131,7 +131,7 @@ class Ranks extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -158,7 +158,7 @@ class Ranks extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -193,10 +193,10 @@ class Ranks extends Service
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'ranks', self::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'ranks', static::LINK_RELATION_SELF)
         );
 
-        if($getRelations && self::isIncluded('rankGroup')) {
+        if($getRelations && static::isIncluded('rankGroup')) {
             $rankGroup = $data->getRankGroup();
             $formatted['rankGroup'] = null;
             if (!empty($rankGroup)) {

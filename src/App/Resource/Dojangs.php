@@ -55,16 +55,16 @@ class Dojangs extends Resource
                 $data = $this->getService()->getDojang($id);
             }
         } catch(\Exception $e) {
-            self::sendException($e);
+            static::sendException($e);
             return;
         }
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_FOUND, $this->formatResponse(self::STATUS_NOT_FOUND, $data,'rank group not found'));
+            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'rank group not found'));
             return;
         }
 
-        self::response(self::STATUS_OK, $this->formatResponse(self::STATUS_OK, $data));
+        static::response(static::STATUS_OK, $this->formatResponse(static::STATUS_OK, $data));
     }
 
     /**
@@ -76,18 +76,18 @@ class Dojangs extends Resource
         $desc = intval($this->getSlim()->request()->params('desc'));
 
         if (empty($name) || empty($desc) || $name === null || $desc === null) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         try {
             $data = $this->getService()->createDojang($name, $desc);
         } catch (DBALException $e) {
-            self::response(self::STATUS_CONFLICT, array('data' => array('conflict')));
+            static::response(static::STATUS_CONFLICT, array('data' => array('conflict')));
             return;
         }
 
-        self::response(self::STATUS_CREATED, array('data' => $data));
+        static::response(static::STATUS_CREATED, array('data' => $data));
     }
 
     /**
@@ -101,18 +101,18 @@ class Dojangs extends Resource
         $desc = $this->getSlim()->request()->params('desc');
 
         if (empty($name) || empty($desc) || $name === null || $desc === null) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         $data = $this->getService()->updateDojang($id, $name, $desc);
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_IMPLEMENTED);
+            static::response(static::STATUS_NOT_IMPLEMENTED);
             return;
         }
 
-        self::response(self::STATUS_NO_CONTENT);
+        static::response(static::STATUS_NO_CONTENT);
     }
 
     /**
@@ -125,11 +125,11 @@ class Dojangs extends Resource
         $status = $this->getService()->deleteDojang($id);
 
         if ($status === false) {
-            self::response(self::STATUS_NOT_FOUND);
+            static::response(static::STATUS_NOT_FOUND);
             return;
         }
 
-        self::response(self::STATUS_OK);
+        static::response(static::STATUS_OK);
     }
 
     /**
@@ -137,7 +137,7 @@ class Dojangs extends Resource
      */
     public function options()
     {
-        self::response(self::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
+        static::response(static::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
     }
 
     /**

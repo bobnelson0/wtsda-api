@@ -131,7 +131,7 @@ class DojangPhoneNumbers extends Service
             'phoneNumber' => $data->getNumber(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangPhoneNumbers', self::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'dojangPhoneNumbers', static::LINK_RELATION_SELF)
         );
 
         if($getRelations && static::isIncluded('dojang')) {

@@ -55,16 +55,16 @@ class RankGroups extends Resource
                 $data = $this->getService()->getRankGroup($id);
             }
         } catch(\Exception $e) {
-            self::sendException($e);
+            static::sendException($e);
             return;
         }
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_FOUND, $this->formatResponse(self::STATUS_NOT_FOUND, $data,'rank group not found'));
+            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'rank group not found'));
             return;
         }
 
-        self::response(self::STATUS_OK, $this->formatResponse(self::STATUS_OK, $data));
+        static::response(static::STATUS_OK, $this->formatResponse(static::STATUS_OK, $data));
     }
 
     /**
@@ -76,18 +76,18 @@ class RankGroups extends Resource
         $ord = intval($this->getSlim()->request()->params('ord'));
 
         if (empty($name) || empty($ord) || $name === null || $ord === null) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         try {
             $data = $this->getService()->createRankGroup($name, $ord);
         } catch (DBALException $e) {
-            self::response(self::STATUS_CONFLICT, array('data' => array('conflict')));
+            static::response(static::STATUS_CONFLICT, array('data' => array('conflict')));
             return;
         }
 
-        self::response(self::STATUS_CREATED, array('data' => $data));
+        static::response(static::STATUS_CREATED, array('data' => $data));
     }
 
     /**
@@ -101,18 +101,18 @@ class RankGroups extends Resource
         $ord = $this->getSlim()->request()->params('ord');
 
         if (empty($name) || empty($ord) || $name === null || $ord === null) {
-            self::response(self::STATUS_BAD_REQUEST);
+            static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         $data = $this->getService()->updateRankGroup($id, $name, $ord);
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_IMPLEMENTED);
+            static::response(static::STATUS_NOT_IMPLEMENTED);
             return;
         }
 
-        self::response(self::STATUS_NO_CONTENT);
+        static::response(static::STATUS_NO_CONTENT);
     }
 
     /**
@@ -125,11 +125,11 @@ class RankGroups extends Resource
         $status = $this->getService()->deleteRankGroup($id);
 
         if ($status === false) {
-            self::response(self::STATUS_NOT_FOUND);
+            static::response(static::STATUS_NOT_FOUND);
             return;
         }
 
-        self::response(self::STATUS_OK);
+        static::response(static::STATUS_OK);
     }
 
     /**
@@ -137,7 +137,7 @@ class RankGroups extends Resource
      */
     public function options()
     {
-        self::response(self::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
+        static::response(static::STATUS_OK, array(), array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'));
     }
 
     /**

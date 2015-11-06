@@ -7,3 +7,4 @@ modules:
           url: http://localhost/wtsda-api/
       REST:
           url: http://localhost/wtsda-api/
+          depends: PhpBrowser

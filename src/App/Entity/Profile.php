@@ -13,8 +13,6 @@ use Doctrine\ORM\Mapping;
 class Profile extends Entity
 {
     /**
-     * @var integer
-     *
      * @Id
      * @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -22,53 +20,58 @@ class Profile extends Entity
     protected $id;
 
     /**
-     * @var string
-     *
      * @Column(type="string", length=30)
      */
     protected $firstName;
 
     /**
-     * @var string
-     *
      * @Column(type="string", length=30, nullable=true)
      */
     protected $middleName;
 
     /**
-     * @var string
-     *
      * @Column(type="string", length=30)
      */
     protected $lastName;
 
     /**
-     * @var string
-     *
      * @Column(type="string", length=6, nullable=true)
      */
     protected $associationNumber;
 
     /**
-     * @var \Date
-     *
      * @Column(type="date")
      */
     protected $dateOfBirth;
 
     /**
-     * @var \string
-     *
      * @Column(type="string", length=1)
      */
     protected $gender;
 
     /**
-     * @var boolean
-     *
      * @Column(name="active", type="boolean")
      */
     protected $active;
+
+    /** Relationship definitions */
+
+    /**
+     * @ManyToOne(targetEntity="Region", inversedBy="profiles")
+     * @JoinColumn(referencedColumnName="id")
+     **/
+    protected $region;
+
+    /**
+     * @ManyToOne(targetEntity="Rank", inversedBy="profiles")
+     * @JoinColumn(referencedColumnName="id")
+     **/
+    protected $rank;
+
+    /**
+     * TODO : fix me
+     */
+    protected $rankGroup = 'FIX ME';
 
     /**
      * @OneToMany(targetEntity="ProfileAddress", mappedBy="profile")
@@ -76,11 +79,23 @@ class Profile extends Entity
     protected $addresses;
 
     /**
+     * @OneToMany(targetEntity="ProfilePhoneNumber", mappedBy="profile")
+     */
+    protected $phoneNumbers;
+
+    /**
+     * @OneToMany(targetEntity="ProfileEmailAddress", mappedBy="profile")
+     */
+    protected $emailAddresses;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+        $this->phoneNumbers = new ArrayCollection();
+        $this->emailAddresses = new ArrayCollection();
     }
 
     /**
@@ -110,10 +125,54 @@ class Profile extends Entity
     }
 
     /**
+     * Set region
+     *
+     * @param Region $region
+     * @return Dojang
+     */
+    public function setRegion(Region $region = null)
+    {
+        $this->region = $region;
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param Rank $rank
+     * @return Dojang
+     */
+    public function setRank(Rank $rank = null)
+    {
+        $this->rank = $rank;
+        return $this;
+    }
+
+    /**
+     * Get rank
+     *
+     * @return Rank
+     */
+    public function getRank()
+    {
+        return $this->rank;
+    }
+
+    /**
      * Add addresses
      *
      * @param ProfileAddress $addresses
-     * @return address
+     * @return Profile
      */
     public function addAddress(ProfileAddress $addresses)
     {
@@ -226,10 +285,15 @@ class Profile extends Entity
      *
      *
      * linked:
+     * region
      * rank
+     * rankGroup
      * dojang
      * judge_cert
      * inst_cert
+     * addresses
+     * phoneNumbers
+     * emailAddresses
      *
      *
      */

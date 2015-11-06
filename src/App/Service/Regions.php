@@ -62,7 +62,7 @@ class Regions extends Service
             return null;
         }
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -108,7 +108,7 @@ class Regions extends Service
         $data = array();
         foreach ($entities as $entity)
         {
-            $data[] = self::formatData($entity);
+            $data[] = static::formatData($entity);
         }
 
         return $data;
@@ -133,7 +133,7 @@ class Regions extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -162,7 +162,7 @@ class Regions extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -198,7 +198,7 @@ class Regions extends Service
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'regions', self::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'regions', static::LINK_RELATION_SELF)
         );
 
         return $formatted;

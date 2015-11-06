@@ -40,11 +40,17 @@ class Region extends Entity
     protected $dojangs;
 
     /**
+     * @OneToMany(targetEntity="Profile", mappedBy="region")
+     */
+    protected $profiles;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->dojangs = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
     /**
@@ -163,5 +169,39 @@ class Region extends Entity
     public function getDojangs()
     {
         return $this->dojangs;
+    }
+
+    /**
+     * Add profiles
+     *
+     * @param Profile $profiles
+     * @return Region
+     */
+    public function addProfile(Profile $profiles)
+    {
+        $this->profiles[] = $profiles;
+        return $this;
+    }
+
+    /**
+     * Remove profiles
+     *
+     * @param Profile $profiles
+     * @return Region
+     */
+    public function removeProfile(Profile $profiles)
+    {
+        $this->profiles->removeElement($profiles);
+        return $this;
+    }
+
+    /**
+     * Get profiles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProfiles()
+    {
+        return $this->profiles;
     }
 }

@@ -19,7 +19,7 @@ class InstructorCertification extends Entity
     protected $id;
 
     /**
-     * @Column(type="string", length=30, unique=true)
+     * @Column(type="string", length=40, unique=true)
      */
     protected $name;
 

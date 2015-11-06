@@ -55,16 +55,16 @@ class DojangPhoneNumbers extends Resource
                 $data = $this->getService()->getDojangPhoneNumber($id);
             }
         } catch(\Exception $e) {
-            self::sendException($e);
+            static::sendException($e);
             return;
         }
 
         if ($data === null) {
-            self::response(self::STATUS_NOT_FOUND, $this->formatResponse(self::STATUS_NOT_FOUND, $data,'rank group not found'));
+            static::response(static::STATUS_NOT_FOUND, $this->formatResponse(static::STATUS_NOT_FOUND, $data,'rank group not found'));
             return;
         }
 
-        self::response(self::STATUS_OK, $this->formatResponse(self::STATUS_OK, $data));
+        static::response(static::STATUS_OK, $this->formatResponse(static::STATUS_OK, $data));
     }
 
     /**
@@ -72,7 +72,7 @@ class DojangPhoneNumbers extends Resource
      */
     public function options()
     {
-        self::response(self::STATUS_OK, array(), array('GET', 'OPTIONS'));
+        static::response(static::STATUS_OK, array(), array('GET', 'OPTIONS'));
     }
 
     /**

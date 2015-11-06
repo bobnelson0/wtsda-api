@@ -59,7 +59,7 @@ class HyungTypes  extends Service
             return null;
         }
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -108,7 +108,7 @@ class HyungTypes  extends Service
         $data = array();
         foreach ($entities as $entity)
         {
-            $data[] = self::formatData($entity);
+            $data[] = static::formatData($entity);
         }
 
         return $data;
@@ -129,7 +129,7 @@ class HyungTypes  extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -154,7 +154,7 @@ class HyungTypes  extends Service
 
         $this->persistAndFlush($entity);
 
-        return self::formatData($entity);
+        return static::formatData($entity);
     }
 
     /**
@@ -187,10 +187,10 @@ class HyungTypes  extends Service
             'name' => $data->getName(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'hyungType', self::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'hyungType', static::LINK_RELATION_SELF)
         );
 
-        if($getRelations && self::isIncluded('hyungs')) {
+        if($getRelations && static::isIncluded('hyungs')) {
             $hyungs = $data->getHyungs();
             $formatted['hyungs'] = array();
             if (!empty($hyungs)) {

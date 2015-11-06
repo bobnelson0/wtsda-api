@@ -76,7 +76,7 @@ abstract class Resource
      */
     public function get($id = null)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
+        $this->response(static::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class Resource
      */
     public function post()
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED);
+        $this->response(static::STATUS_METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class Resource
      */
     public function put($id)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
+        $this->response(static::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
@@ -104,7 +104,7 @@ abstract class Resource
      */
     public function delete($id)
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
+        $this->response(static::STATUS_METHOD_NOT_ALLOWED, array('id' => $id));
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class Resource
      */
     public function options()
     {
-        $this->response(self::STATUS_METHOD_NOT_ALLOWED);
+        $this->response(static::STATUS_METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class Resource
      */
     public function patch()
     {
-        $this->response(self::STATUS_NOT_IMPLEMENTED);
+        $this->response(static::STATUS_NOT_IMPLEMENTED);
     }
 
     /**

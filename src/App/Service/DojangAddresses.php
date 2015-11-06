@@ -59,7 +59,7 @@ class DojangAddresses extends Service
             'formatted' => $data->getFormatted(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => self::formatLink($data, 'dojangAddresses', 'self')
+            'links' => static::formatLink($data, 'dojangAddresses', 'self')
         );
 
         return $formatted;

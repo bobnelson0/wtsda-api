@@ -35,34 +35,34 @@ class Log {
     }
 
     public static function debug($object, $context = array()) {
-        return self::log(Logger::DEBUG, $object, $context);
+        static::log(Logger::DEBUG, $object, $context);
     }
 
     public static function info($object, $context = array()) {
-        return self::log(Logger::INFO, $object, $context);
+        static::log(Logger::INFO, $object, $context);
     }
 
     public static function notice($object, $context = array()) {
-        return self::log(Logger::NOTICE, $object, $context);
+        static::log(Logger::NOTICE, $object, $context);
     }
 
     public static function warning($object, $context = array()) {
-        return self::log(Logger::WARNING, $object, $context);
+        static::log(Logger::WARNING, $object, $context);
     }
 
     public static function error($object, $context = array()) {
-        return self::log(Logger::ERROR, $object, $context);
+        static::log(Logger::ERROR, $object, $context);
     }
 
     public static function critical($object, $context = array()) {
-        return self::log(Logger::CRITICAL, $object, $context);
+        static::log(Logger::CRITICAL, $object, $context);
     }
 
     public static function alert($object, $context = array()) {
-        return self::log(Logger::ALERT, $object, $context);
+        static::log(Logger::ALERT, $object, $context);
     }
 
     public static function emergency($object, $context = array()) {
-        return self::log(Logger::EMERGENCY, $object, $context);
+        static::log(Logger::EMERGENCY, $object, $context);
     }
 }
