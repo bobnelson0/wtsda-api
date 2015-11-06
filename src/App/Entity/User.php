@@ -15,8 +15,8 @@ class User extends Entity
     /**
      * @var integer
      *
-     * @Column(name="id", type="integer")
      * @Id
+     * @Column(name="id", type="integer")
      * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -27,27 +27,6 @@ class User extends Entity
      * @Column(name="username", type="string", length=255, unique=true)
      */
     protected $username;
-
-    /**
-     * @var integer
-     *
-     * @Column(name="created", type="bigint")
-     */
-    protected $created;
-
-    /**
-     * @var integer
-     *
-     * @Column(name="lastLogin", type="bigint")
-     */
-    protected $lastLogin;
-
-    /**
-     * @var string
-     *
-     * @Column(name="salt", type="string", length=40, nullable=true)
-     */
-    protected $salt;
 
     /**
      * @var boolean
@@ -63,6 +42,14 @@ class User extends Entity
     protected $password;
 
     /**
+     * @var string
+     *
+     * @OneToOne(targetEntity="PasswordSalt")
+     * @JoinColumn(name="salt_id", referencedColumnName="id")
+     */
+    protected $salt;
+
+    /**
      * @ManyToOne(targetEntity="Role", inversedBy="users")
      * @JoinColumn(referencedColumnName="id")
      **/
@@ -75,10 +62,18 @@ class User extends Entity
     protected $permissions;
 
     /**
+     * @var \DateTime
+     *
+     * @Column(type="datetime")
+     */
+    protected $lastLogin;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->permissions = new ArrayCollection();
     }
 

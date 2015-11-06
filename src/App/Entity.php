@@ -63,7 +63,11 @@ abstract class Entity
      */
     public function setCreated($created)
     {
-        $this->created = $created;
+        if(empty($created)) {
+            $this->created= new \DateTime();
+        } else {
+            $this->created = $created;
+        }
     }
 
     /**

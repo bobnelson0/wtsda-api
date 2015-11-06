@@ -24,6 +24,14 @@ class ProfileAddress extends MappedSuperClass\Address
     protected $profile;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

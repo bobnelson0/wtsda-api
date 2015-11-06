@@ -8,6 +8,7 @@
         "doctrine/orm": "2.3.*",
         "codeception/codeception": "*",
         "monolog/monolog": "1.12.*@dev",
-        "flynsarmy/slim-monolog": "dev-master"
+        "flynsarmy/slim-monolog": "dev-master",
+        "flow/jsonpath": "dev-master"
     }
 }

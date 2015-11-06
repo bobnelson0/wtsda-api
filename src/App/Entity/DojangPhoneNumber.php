@@ -24,6 +24,14 @@ class DojangPhoneNumber extends MappedSuperClass\PhoneNumber
     protected $dojang;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

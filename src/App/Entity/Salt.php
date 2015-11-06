@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * User: Robert S. Nelson <bob.nelson@gmail.com>
+ * Date: 2015-11-06
+ * Time: 12:09 PM
+ */
 namespace App\Entity;
 
 use App\Entity;
@@ -9,9 +13,9 @@ use Doctrine\ORM\Mapping;
  * Password
  *
  * @Entity
- * @Table(name="Passwords")
+ * @Table(name="PasswordSalts")
  */
-class Password extends Entity
+class PasswordSalt extends Entity
 {
     /**
      * @var integer
@@ -40,7 +44,7 @@ class Password extends Entity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -64,11 +68,10 @@ class Password extends Entity
     /**
      * Get string
      *
-     * @return string 
+     * @return string
      */
     public function getString()
     {
         return $this->string;
     }
 }
-

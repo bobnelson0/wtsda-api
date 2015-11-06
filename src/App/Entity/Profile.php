@@ -93,6 +93,7 @@ class Profile extends Entity
      */
     public function __construct()
     {
+        parent::__construct();
         $this->addresses = new ArrayCollection();
         $this->phoneNumbers = new ArrayCollection();
         $this->emailAddresses = new ArrayCollection();

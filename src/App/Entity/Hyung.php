@@ -35,6 +35,14 @@ class Hyung extends Entity
     protected $ord;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

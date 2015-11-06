@@ -24,6 +24,14 @@ class ProfilePhoneNumber extends MappedSuperClass\PhoneNumber
     protected $profile;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

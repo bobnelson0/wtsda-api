@@ -75,7 +75,7 @@ class Ranks extends Resource
         $name = $this->getSlim()->request()->params('name');
         $ord = intval($this->getSlim()->request()->params('ord'));
 
-        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+        if (empty($name) || empty($ord)) {
             static::response(static::STATUS_BAD_REQUEST);
             return;
         }

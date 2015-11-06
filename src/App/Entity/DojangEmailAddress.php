@@ -24,6 +24,14 @@ class DojangEmailAddress extends MappedSuperClass\EmailAddress
     protected $dojang;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

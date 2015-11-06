@@ -29,7 +29,7 @@ class PhoneNumber extends Entity
      *
      * @param string $type
      *
-     * @return PhoneNumbers
+     * @return PhoneNumber
      */
     public function setType($type)
     {
@@ -53,7 +53,7 @@ class PhoneNumber extends Entity
      *
      * @param string $number
      *
-     * @return PhoneNumbers
+     * @return PhoneNumber
      */
     public function setNumber($number)
     {

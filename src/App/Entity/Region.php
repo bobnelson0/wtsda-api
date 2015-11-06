@@ -49,6 +49,7 @@ class Region extends Entity
      */
     public function __construct()
     {
+        parent::__construct();
         $this->dojangs = new ArrayCollection();
         $this->profiles = new ArrayCollection();
     }

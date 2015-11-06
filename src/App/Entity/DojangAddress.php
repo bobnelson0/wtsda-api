@@ -24,6 +24,14 @@ class DojangAddress extends MappedSuperClass\Address
     protected $dojang;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get id
      *
      * @return integer

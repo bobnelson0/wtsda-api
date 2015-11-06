@@ -38,6 +38,7 @@ class Rank extends Entity
      */
     public function __construct()
     {
+        parent::__construct();
         $this->profiles = new ArrayCollection();
     }
 

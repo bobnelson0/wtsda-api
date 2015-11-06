@@ -50,6 +50,7 @@ class Role extends Entity
      */
     public function __construct()
     {
+        parent::__construct();
         $this->users = new ArrayCollection();
         $this->permissions = new ArrayCollection();
     }
