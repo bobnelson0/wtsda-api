@@ -7,7 +7,7 @@
 namespace App\Service;
 
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 /**
  * Class Profiles
@@ -54,9 +54,8 @@ class Profiles extends Service
      */
     public function getProfile($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\Profile $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;

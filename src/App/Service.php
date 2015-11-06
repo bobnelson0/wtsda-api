@@ -121,7 +121,7 @@ abstract class Service
     {
         //TODO Fix/Test me
         $request = Slim::getInstance()->request();
-        $include = $request->params('incl');
+        $include = $request->params('rel');
 
         if(empty($include)) {
             $include = static::$defaultEntitiesIncluded;
@@ -129,7 +129,7 @@ abstract class Service
             $include = explode(',', $include);
         }
 
-        if(in_array($key, $include)) {
+        if(!empty($include) && is_array($include) && in_array($key, $include)) {
             return true;
         }
 

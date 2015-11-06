@@ -7,7 +7,7 @@
 namespace App\Service;
 
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 /**
  * Class Dojangs
@@ -46,7 +46,7 @@ class Dojangs extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('region','addresses','emailAddresses','phoneNumbers');
+    protected static $defaultEntitiesIncluded = array();
 
     /**
      * @param $id
@@ -54,9 +54,8 @@ class Dojangs extends Service
      */
     public function getDojang($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\Dojang $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;
@@ -165,7 +164,8 @@ class Dojangs extends Service
             'description' => $data->getDescription(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => static::formatLink($data, 'dojangs', static::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'dojangs', static::LINK_RELATION_SELF),
+            'relations' => array('region','addresses','emailAddresses','phoneNumbers')
         );
 
         if($getRelations && static::isIncluded('region')) {

@@ -8,7 +8,7 @@
 namespace App\Service;
 
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 class HyungTypes  extends Service
 {
@@ -43,7 +43,7 @@ class HyungTypes  extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('hyungs');
+    protected static $defaultEntitiesIncluded = array();
 
     /**
      * @param $id
@@ -51,9 +51,8 @@ class HyungTypes  extends Service
      */
     public function getHyungType($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\HyungType $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;
@@ -158,7 +157,8 @@ class HyungTypes  extends Service
             'name' => $data->getName(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => static::formatLink($data, 'hyungType', static::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'hyungType', static::LINK_RELATION_SELF),
+            'relations' => array('hyungs')
         );
 
         if($getRelations && static::isIncluded('hyungs')) {

@@ -7,7 +7,7 @@
 namespace App\Service;
 
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 /**
  * Class RankGroups
@@ -46,7 +46,7 @@ class RankGroups extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('ranks');
+    protected static $defaultEntitiesIncluded = array();
 
     /**
      * @param $id
@@ -54,9 +54,8 @@ class RankGroups extends Service
      */
     public function getRankGroup($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\RankGroup $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;
@@ -166,7 +165,8 @@ class RankGroups extends Service
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => static::formatLink($data, 'rankGroups', static::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'rankGroups', static::LINK_RELATION_SELF),
+            'relations' => array('ranks')
         );
 
         if($getRelations && static::isIncluded('ranks')) {

@@ -74,20 +74,21 @@ class Ranks extends Resource
     {
         $name = $this->getSlim()->request()->params('name');
         $ord = intval($this->getSlim()->request()->params('ord'));
+        $groupId = intval($this->getSlim()->request()->params('groupId'));
 
-        if (empty($name) || empty($ord)) {
+        if (empty($name) || empty($ord) || empty($groupId)) {
             static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
         try {
-            $data = $this->getService()->createRank($name, $ord);
+            $data = $this->getService()->createRank($name, $ord, $groupId);
         } catch (DBALException $e) {
             static::response(static::STATUS_CONFLICT, array('data' => array('conflict')));
             return;
         }
 
-        static::response(static::STATUS_CREATED, array('data' => $data));
+        static::response(static::STATUS_CREATED, $this->formatResponse(static::STATUS_CREATED, $data));
     }
 
     /**
@@ -98,14 +99,15 @@ class Ranks extends Resource
     public function put($id)
     {
         $name = $this->getSlim()->request()->params('name');
-        $ord = $this->getSlim()->request()->params('ord');
+        $ord = intval($this->getSlim()->request()->params('ord'));
+        $groupId = intval($this->getSlim()->request()->params('groupId'));
 
-        if (empty($name) || empty($ord) || $name === null || $ord === null) {
+        if (empty($name) || empty($ord) || empty($groupId)) {
             static::response(static::STATUS_BAD_REQUEST);
             return;
         }
 
-        $data = $this->getService()->updateRank($id, $name, $ord);
+        $data = $this->getService()->updateRank($id, $name, $ord, $groupId);
 
         if ($data === null) {
             static::response(static::STATUS_NOT_IMPLEMENTED);

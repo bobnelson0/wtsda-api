@@ -7,7 +7,7 @@
 namespace App\Service;
 
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 /**
  * Class Ranks
@@ -46,7 +46,7 @@ class Ranks extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('rankGroup');
+    protected static $defaultEntitiesIncluded = array();
 
     /**
      * @param $id
@@ -54,9 +54,8 @@ class Ranks extends Service
      */
     public function getRank($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\Rank $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;
@@ -91,9 +90,10 @@ class Ranks extends Service
     /**
      * @param $name
      * @param $ord
+     * @param $groupId
      * @return array
      */
-    public function createRank($name, $ord)
+    public function createRank($name, $ord, $groupId)
     {
         /**
          * @var \App\Entity\Rank $entity
@@ -102,6 +102,10 @@ class Ranks extends Service
         $entity = new $entityClass();
         $entity->setName($name);
         $entity->setOrd($ord);
+
+        /* @var \App\Entity\RankGroup $rankGroup */
+        $rankGroup = Entity::findById($this->getEntityManager(), 'App\Entity\RankGroup', $groupId);
+        $entity->setRankGroup($rankGroup);
 
         $this->persistAndFlush($entity);
 
@@ -112,9 +116,10 @@ class Ranks extends Service
      * @param $id
      * @param $name
      * @param $ord
+     * @param $groupId
      * @return array
      */
-    public function updateRank($id, $name, $ord)
+    public function updateRank($id, $name, $ord, $groupId)
     {
         /**
         * @var \App\Entity\Rank $entity
@@ -129,6 +134,10 @@ class Ranks extends Service
         $entity->setName($name);
         $entity->setOrd($ord);
         $entity->setUpdated(new \DateTime());
+
+        /* @var \App\Entity\RankGroup $rankGroup */
+        $rankGroup = Entity::findById($this->getEntityManager(), 'App\Entity\RankGroup', $groupId);
+        $entity->setRankGroup($rankGroup);
 
         $this->persistAndFlush($entity);
 
@@ -167,7 +176,8 @@ class Ranks extends Service
             'ord' => $data->getOrd(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => static::formatLink($data, 'ranks', static::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'ranks', static::LINK_RELATION_SELF),
+            'relations' => array('rankGroup')
         );
 
         if($getRelations && static::isIncluded('rankGroup')) {

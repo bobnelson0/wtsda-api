@@ -4,12 +4,10 @@
  * Date: 2015-02-20
  * Time: 1:56 PM
  */
-
 namespace App\Service;
 
-use App\Entity\Dojang;
 use App\Service;
-use App\Util\Request;
+use App\Util\Entity;
 
 /**
  * Class DojangEmailAddresses
@@ -48,7 +46,7 @@ class DojangPhoneNumbers extends Service
     /**
      * @var array
      */
-    protected static $defaultEntitiesIncluded = array('dojang');
+    protected static $defaultEntitiesIncluded = array();
 
     /**
      * @param $id
@@ -56,9 +54,8 @@ class DojangPhoneNumbers extends Service
      */
     public function getDojangPhoneNumber($id)
     {
-        $repository = $this->getEntityManager()->getRepository($this->entityPath);
         /* @var \App\Entity\DojangPhoneNumber $entity */
-        $entity = $repository->find($id);
+        $entity = Entity::findById($this->getEntityManager(), $this->entityPath, $id);
 
         if ($entity === null) {
             return null;
@@ -102,7 +99,8 @@ class DojangPhoneNumbers extends Service
             'phoneNumber' => $data->getNumber(),
             'created' => $data->getCreated(),
             'updated' => $data->getUpdated(),
-            'links' => static::formatLink($data, 'dojangPhoneNumbers', static::LINK_RELATION_SELF)
+            'links' => static::formatLink($data, 'dojangPhoneNumbers', static::LINK_RELATION_SELF),
+            'relations' => array('dojang')
         );
 
         if($getRelations && static::isIncluded('dojang')) {
