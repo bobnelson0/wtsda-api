@@ -1,7 +1,14 @@
 {
-  "name": "wtsda-api",
-  "version": "0.0.1",
-  "require": {
-    "monolog/monolog": "1.0.0"
-  }
+    "require": {
+        "slim/slim": "2.*",
+        "symfony/class-loader": "~2.4",
+        "symfony/console": "~2.4",
+        "doctrine/common": "2.3.*",
+        "doctrine/dbal": "2.3.*",
+        "doctrine/orm": "2.3.*",
+        "codeception/codeception": "*",
+        "monolog/monolog": "1.12.*@dev",
+        "flynsarmy/slim-monolog": "dev-master",
+        "flow/jsonpath": "dev-master"
+    }
 }

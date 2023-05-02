@@ -1,3 +1,7 @@
-libraries/*
-resources/tmp/*
-.DS_Store
+vendor/
+.idea/
+composer.lock
+config/local.ini
+tests/_logs
+tests/_data
+src/App/Entity/Proxy
